@@ -513,172 +513,14 @@ const challengesData = {
 };
 
 const defaultCamos = ['Gold', 'Diamond', 'Dark Spine', 'Dark Matter'];
-
-
-function WeaponCategory({ category, weapons, trackerData, updateCamoStatus, isExpanded, toggleCategory }) {
-  const categoryProgress = defaultCamos.reduce((acc, camo) => {
-    acc[camo] = weapons.filter((weapon) => trackerData[weapon.name]?.[camo] || false).length;
-    return acc;
-  }, {});
-  return (
-    <div className="bg-gray-800 rounded-lg shadow-lg">
-      <button
-        className="w-full text-left p-4 font-semibold text-xl flex justify-between items-center"
-        onClick={() => toggleCategory(category.name)}
-      >
-        <span>
-          {category.name} ({category.weapons.length})
-          <span className="ml-2 text-sm text-gray-400">
-            {defaultCamos.map((camo) => `${categoryProgress[camo]}/${category.weapons.length} ${camo}`).join(' - ')}
-          </span>
-        </span>
-        <span>{isExpanded ? '▲' : '▼'}</span>
-      </button>
-      {isExpanded && (
-        <div className="p-4 space-y-4">
-          {category.weapons.map((weapon) => (
-            <Weapon
-              key={weapon.name}
-              weapon={weapon}
-              trackerData={trackerData[weapon.name] || {}}
-              updateCamoStatus={updateCamoStatus}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function Weapon({ weapon, trackerData, updateCamoStatus }) {
-  const weaponChallenges = challengesData[weapon.name] || [];
-  return (
-    <div className="bg-gray-700 p-4 rounded-lg">
-      <h3 className="text-xl font-semibold mb-2 flex items-center">
-        <img
-          src={weapon.image || 'https://via.placeholder.com/50'}
-          alt={weapon.name}
-          className="h-32 object-contain mr-4 rounded"
-        />
-        {weapon.name}
-      </h3>
-      <div className="grid grid-cols-2 gap-4">
-        {weaponChallenges.map((camo) => (
-          <div key={camo.name} className="flex items-center space-x-3 group">
-            <img
-              src={camo.image || 'https://via.placeholder.com/50'}
-              alt={camo.name}
-              className={`w-16 h-16 rounded cursor-pointer ${trackerData[camo.name] ? 'opacity-100' : 'opacity-50'}`}
-              onClick={() => updateCamoStatus(weapon.name, camo.name, !trackerData[camo.name])}
-            />
-            <div>
-              <p className="font-medium text-lg">{camo.name}</p>
-              <p className="text-sm text-gray-400 group-hover:text-white">{camo.challenge}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Counters({ trackerData }) {
-  const camoCounts = {
-    Gold: 0,
-    Diamond: 0,
-    'Dark Spine': 0,
-    'Dark Matter': 0,
-  };
-
-  weaponCategories.forEach((category) =>
-    category.weapons.forEach((weapon) => {
-      const weaponData = trackerData[weapon.name] || {};
-      ['Gold', 'Diamond', 'Dark Spine', 'Dark Matter'].forEach((camo) => {
-        if (weaponData[camo]) camoCounts[camo]++;
-      });
-    })
-  );
-
-  // Extract camo images from challengesData (using the first weapon with these camos as a reference)
-  const camoImages = {
-    Gold: challengesData['XM4']?.find((c) => c.name === 'Gold')?.image || 'https://via.placeholder.com/50',
-    Diamond: challengesData['XM4']?.find((c) => c.name === 'Diamond')?.image || 'https://via.placeholder.com/50',
-    'Dark Spine': challengesData['XM4']?.find((c) => c.name === 'Dark Spine')?.image || 'https://via.placeholder.com/50',
-    'Dark Matter': challengesData['XM4']?.find((c) => c.name === 'Dark Matter')?.image || 'https://via.placeholder.com/50',
-  };
-
-  return (
-    <div className="bg-gray-800 p-6 rounded-lg mb-6">
-      <h2 className="text-2xl font-semibold mb-4">Overall Progress</h2>
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div
-          className="bg-gray-700 p-4 rounded-lg text-yellow-400 relative overflow-hidden"
-          style={{
-            backgroundImage: `url(${camoImages.Gold})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        >
-          <div className="absolute inset-0 bg-black opacity-50"></div>
-          <div className="relative z-10">
-            <p className="text-lg font-medium">Gold</p>
-            <p>{camoCounts.Gold}/50</p>
-          </div>
-        </div>
-        <div
-          className="bg-gray-700 p-4 rounded-lg text-blue-300 relative overflow-hidden"
-          style={{
-            backgroundImage: `url(${camoImages.Diamond})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        >
-          <div className="absolute inset-0 bg-black opacity-50"></div>
-          <div className="relative z-10">
-            <p className="text-lg font-medium">Diamond</p>
-            <p>{camoCounts.Diamond}/50</p>
-          </div>
-        </div>
-        <div
-          className="bg-gray-700 p-4 rounded-lg text-purple-400 relative overflow-hidden"
-          style={{
-            backgroundImage: `url(${camoImages['Dark Spine']})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        >
-          <div className="absolute inset-0 bg-black opacity-50"></div>
-          <div className="relative z-10">
-            <p className="text-lg font-medium">Dark Spine</p>
-            <p>{camoCounts['Dark Spine']}/50</p>
-          </div>
-        </div>
-        <div
-          className="bg-gray-700 p-4 rounded-lg text-red-500 relative overflow-hidden"
-          style={{
-            backgroundImage: `url(${camoImages['Dark Matter']})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        >
-          <div className="absolute inset-0 bg-black opacity-50"></div>
-          <div className="relative z-10">
-            <p className="text-lg font-medium">Dark Matter</p>
-            <p>{camoCounts['Dark Matter']}/50</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
 function AppWrapper() {
   const [trackerData, setTrackerData] = useState(() => {
     const saved = localStorage.getItem('camoTracker');
     return saved ? JSON.parse(saved) : {};
   });
   const [expandedCategories, setExpandedCategories] = useState({});
+  const [expandedWeapons, setExpandedWeapons] = useState({});
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     localStorage.setItem('camoTracker', JSON.stringify(trackerData));
@@ -688,6 +530,13 @@ function AppWrapper() {
     setExpandedCategories((prev) => ({
       ...prev,
       [category]: !prev[category],
+    }));
+  };
+
+  const toggleWeapon = (weaponName) => {
+    setExpandedWeapons((prev) => ({
+      ...prev,
+      [weaponName]: !prev[weaponName],
     }));
   };
 
@@ -713,10 +562,31 @@ function AppWrapper() {
     }));
   };
 
+  // Calculate total number of weapons dynamically
+  const totalWeapons = weaponCategories.reduce((acc, category) => acc + category.weapons.length, 0);
+
+  // Filter categories and weapons based on search term
+  const filteredCategories = weaponCategories.map((category) => ({
+    ...category,
+    weapons: category.weapons.filter((weapon) =>
+      weapon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      category.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ),
+  })).filter((category) => category.weapons.length > 0);
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <h1 className="text-4xl font-bold text-center mb-6">COD BO6 Camos Tracker</h1>
-      <Counters trackerData={trackerData} />
+      <div className="mb-6">
+        <input
+          type="text"
+          placeholder="Search weapons or categories..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full p-2 rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <Counters trackerData={trackerData} totalWeapons={totalWeapons} />
       <div className="flex justify-between mb-6">
         <button
           className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -740,7 +610,7 @@ function AppWrapper() {
         </div>
       </div>
       <div className="space-y-4">
-        {weaponCategories.map((category) => (
+        {filteredCategories.map((category) => (
           <WeaponCategory
             key={category.name}
             category={category}
@@ -749,9 +619,182 @@ function AppWrapper() {
             updateCamoStatus={updateCamoStatus}
             isExpanded={expandedCategories[category.name] || false}
             toggleCategory={toggleCategory}
+            expandedWeapons={expandedWeapons}
+            toggleWeapon={toggleWeapon}
           />
         ))}
       </div>
     </div>
   );
 }
+
+function WeaponCategory({ category, weapons, trackerData, updateCamoStatus, isExpanded, toggleCategory, expandedWeapons, toggleWeapon }) {
+  const categoryProgress = defaultCamos.reduce((acc, camo) => {
+    acc[camo] = weapons.filter((weapon) => trackerData[weapon.name]?.[camo] || false).length;
+    return acc;
+  }, {});
+  return (
+    <div className="bg-gray-800 rounded-lg shadow-lg">
+      <button
+        className="w-full text-left p-4 font-semibold text-xl flex justify-between items-center"
+        onClick={() => toggleCategory(category.name)}
+      >
+        <span>
+          {category.name} ({category.weapons.length})
+          <span className="ml-2 text-sm text-gray-400">
+            {defaultCamos.map((camo) => `${categoryProgress[camo]}/${category.weapons.length} ${camo}`).join(' - ')}
+          </span>
+        </span>
+        <span>{isExpanded ? '▲' : '▼'}</span>
+      </button>
+      {isExpanded && (
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {weapons.map((weapon) => (
+            <Weapon
+              key={weapon.name}
+              weapon={weapon}
+              trackerData={trackerData[weapon.name] || {}}
+              updateCamoStatus={updateCamoStatus}
+              isExpanded={expandedWeapons[weapon.name] || false}
+              toggleWeapon={toggleWeapon}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapon }) {
+  const weaponChallenges = challengesData[weapon.name] || [];
+  return (
+    <div className={`bg-gray-700 rounded-lg shadow-md transition-all duration-200 ${isExpanded ? 'pb-0' : 'pb-0'}`}>
+      <div className="flex items-center justify-between p-3">
+        <div className="flex items-center w-full">
+          <img
+            src={weapon.image || 'https://via.placeholder.com/1600x480'}
+            alt={weapon.name}
+            className="h-20 object-contain mr-3 rounded"
+          />
+          <span className="font-semibold text-lg truncate flex-1">{weapon.name}</span>
+        </div>
+        <button
+          className="ml-2 focus:outline-none"
+          onClick={() => toggleWeapon(weapon.name)}
+        >
+          <span>{isExpanded ? '▲' : '▼'}</span>
+        </button>
+      </div>
+      {isExpanded && (
+        <div className="p-3 border-t border-gray-600">
+          <div className="grid grid-cols-2 gap-2">
+            {weaponChallenges.map((camo) => (
+              <div key={camo.name} className="flex items-center space-x-2 group">
+                <img
+                  src={camo.image || 'https://via.placeholder.com/50'}
+                  alt={camo.name}
+                  className="w-12 h-12 rounded cursor-pointer transition-opacity duration-200 ${trackerData[camo.name] ? 'opacity-100' : 'opacity-50 hover:opacity-75'}"
+                  onClick={() => updateCamoStatus(weapon.name, camo.name, !trackerData[camo.name])}
+                />
+                <div className="flex-1">
+                  <p className="font-medium text-sm truncate">{camo.name}</p>
+                  <p className="text-xs text-gray-400 group-hover:text-white line-clamp-2">{camo.challenge}</p>
+                </div>
+              </div>
+            )) || <p className="text-gray-400 text-xs">No challenges available</p>}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Counters({ trackerData, totalWeapons }) {
+  const camoCounts = {
+    Gold: 0,
+    Diamond: 0,
+    'Dark Spine': 0,
+    'Dark Matter': 0,
+  };
+
+  weaponCategories.forEach((category) =>
+    category.weapons.forEach((weapon) => {
+      const weaponData = trackerData[weapon.name] || {};
+      ['Gold', 'Diamond', 'Dark Spine', 'Dark Matter'].forEach((camo) => {
+        if (weaponData[camo]) camoCounts[camo]++;
+      });
+    })
+  );
+
+  const camoImages = {
+    Gold: challengesData['XM4']?.find((c) => c.name === 'Gold')?.image || 'https://via.placeholder.com/50',
+    Diamond: challengesData['XM4']?.find((c) => c.name === 'Diamond')?.image || 'https://via.placeholder.com/50',
+    'Dark Spine': challengesData['XM4']?.find((c) => c.name === 'Dark Spine')?.image || 'https://via.placeholder.com/50',
+    'Dark Matter': challengesData['XM4']?.find((c) => c.name === 'Dark Matter')?.image || 'https://via.placeholder.com/50',
+  };
+
+  return (
+    <div className="bg-gray-800 p-6 rounded-lg mb-6">
+      <h2 className="text-2xl font-semibold mb-4">Overall Progress</h2>
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div
+          className="bg-gray-700 p-4 rounded-lg text-yellow-400 relative overflow-hidden"
+          style={{
+            backgroundImage: `url(${camoImages.Gold})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="relative z-10">
+            <p className="text-lg font-medium">Gold</p>
+            <p>{camoCounts.Gold}/{totalWeapons}</p>
+          </div>
+        </div>
+        <div
+          className="bg-gray-700 p-4 rounded-lg text-blue-300 relative overflow-hidden"
+          style={{
+            backgroundImage: `url(${camoImages.Diamond})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="relative z-10">
+            <p className="text-lg font-medium">Diamond</p>
+            <p>{camoCounts.Diamond}/{totalWeapons}</p>
+          </div>
+        </div>
+        <div
+          className="bg-gray-700 p-4 rounded-lg text-purple-400 relative overflow-hidden"
+          style={{
+            backgroundImage: `url(${camoImages['Dark Spine']})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="relative z-10">
+            <p className="text-lg font-medium">Dark Spine</p>
+            <p>{camoCounts['Dark Spine']}/{totalWeapons}</p>
+          </div>
+        </div>
+        <div
+          className="bg-gray-700 p-4 rounded-lg text-red-500 relative overflow-hidden"
+          style={{
+            backgroundImage: `url(${camoImages['Dark Matter']})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="relative z-10">
+            <p className="text-lg font-medium">Dark Matter</p>
+            <p>{camoCounts['Dark Matter']}/{totalWeapons}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
