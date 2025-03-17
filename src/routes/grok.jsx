@@ -5,6 +5,7 @@ import { createFileRoute } from '@tanstack/react-router'
 export const Route = createFileRoute('/grok')({
   component: AppWrapper,
 })
+
 const weaponCategories = [
   {
     name: "Assault Rifle",
@@ -557,7 +558,7 @@ function Weapon({ weapon, trackerData, updateCamoStatus }) {
         <img
           src={weapon.image || 'https://via.placeholder.com/50'}
           alt={weapon.name}
-          className="w-16 h-16 mr-3 rounded"
+          className="h-32 object-contain mr-4 rounded"
         />
         {weapon.name}
       </h3>
@@ -598,25 +599,73 @@ function Counters({ trackerData }) {
     })
   );
 
+  // Extract camo images from challengesData (using the first weapon with these camos as a reference)
+  const camoImages = {
+    Gold: challengesData['XM4']?.find((c) => c.name === 'Gold')?.image || 'https://via.placeholder.com/50',
+    Diamond: challengesData['XM4']?.find((c) => c.name === 'Diamond')?.image || 'https://via.placeholder.com/50',
+    'Dark Spine': challengesData['XM4']?.find((c) => c.name === 'Dark Spine')?.image || 'https://via.placeholder.com/50',
+    'Dark Matter': challengesData['XM4']?.find((c) => c.name === 'Dark Matter')?.image || 'https://via.placeholder.com/50',
+  };
+
   return (
     <div className="bg-gray-800 p-6 rounded-lg mb-6">
       <h2 className="text-2xl font-semibold mb-4">Overall Progress</h2>
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="bg-gray-700 p-4 rounded-lg text-yellow-400">
-          <p className="text-lg font-medium">Gold</p>
-          <p>{camoCounts.Gold}/50</p>
+        <div
+          className="bg-gray-700 p-4 rounded-lg text-yellow-400 relative overflow-hidden"
+          style={{
+            backgroundImage: `url(${camoImages.Gold})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="relative z-10">
+            <p className="text-lg font-medium">Gold</p>
+            <p>{camoCounts.Gold}/50</p>
+          </div>
         </div>
-        <div className="bg-gray-700 p-4 rounded-lg text-blue-300">
-          <p className="text-lg font-medium">Diamond</p>
-          <p>{camoCounts.Diamond}/50</p>
+        <div
+          className="bg-gray-700 p-4 rounded-lg text-blue-300 relative overflow-hidden"
+          style={{
+            backgroundImage: `url(${camoImages.Diamond})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="relative z-10">
+            <p className="text-lg font-medium">Diamond</p>
+            <p>{camoCounts.Diamond}/50</p>
+          </div>
         </div>
-        <div className="bg-gray-700 p-4 rounded-lg text-purple-400">
-          <p className="text-lg font-medium">Dark Spine</p>
-          <p>{camoCounts['Dark Spine']}/50</p>
+        <div
+          className="bg-gray-700 p-4 rounded-lg text-purple-400 relative overflow-hidden"
+          style={{
+            backgroundImage: `url(${camoImages['Dark Spine']})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="relative z-10">
+            <p className="text-lg font-medium">Dark Spine</p>
+            <p>{camoCounts['Dark Spine']}/50</p>
+          </div>
         </div>
-        <div className="bg-gray-700 p-4 rounded-lg text-red-500">
-          <p className="text-lg font-medium">Dark Matter</p>
-          <p>{camoCounts['Dark Matter']}/50</p>
+        <div
+          className="bg-gray-700 p-4 rounded-lg text-red-500 relative overflow-hidden"
+          style={{
+            backgroundImage: `url(${camoImages['Dark Matter']})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="relative z-10">
+            <p className="text-lg font-medium">Dark Matter</p>
+            <p>{camoCounts['Dark Matter']}/50</p>
+          </div>
         </div>
       </div>
     </div>
