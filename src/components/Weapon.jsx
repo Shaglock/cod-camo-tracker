@@ -4,12 +4,18 @@ import { challengesData } from '../constants/weaponData';
 export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapon }) {
   const weaponChallenges = challengesData[weapon.name] || [];
 
+  const completeAllCamos = () => {
+    weaponChallenges.forEach((camo) => {
+      updateCamoStatus(weapon.name, camo.name, true);
+    });
+  };
+
   return (
     <div className="bg-gray-700 rounded-lg shadow-md transition-all duration-200 min-h-[100px] sm:min-h-[120px]">
-      {/* Header with name and image, responsible for expanding */}
+      {/* Header with name and image */}
       <div
         className="flex items-center justify-between p-2 sm:p-3 border-b border-gray-600 cursor-pointer"
-        onClick={() => toggleWeapon(weapon.name)} // Only the header toggles
+        onClick={() => toggleWeapon(weapon.name)}
       >
         <div className="flex items-center w-full space-x-2 sm:space-x-3">
           <img
@@ -17,23 +23,32 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
             alt={weapon.name}
             className="h-14 sm:h-16 md:h-20 lg:h-24 object-contain rounded max-w-[50%] sm:max-w-[40%]"
           />
-          <span className="font-semibold text-sm sm:text-base md:text-lg whitespace-normal break-words">
+          <span className="font-semibold text-sm sm:text-base md:text-lg whitespace-normal break-words flex-1">
             {weapon.name}
           </span>
         </div>
         <span className="text-sm sm:text-base md:text-lg">{isExpanded ? '▲' : '▼'}</span>
       </div>
 
-      {/* Challenges section, collapsible */}
+      {/* Expanded section with Complete All button and challenges */}
       {isExpanded && (
         <div className="p-2 sm:p-3">
+          <button
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs sm:text-sm mb-2 w-full sm:w-auto"
+            onClick={(e) => {
+              e.stopPropagation();
+              completeAllCamos();
+            }}
+          >
+            Complete All Camos
+          </button>
           {weaponChallenges.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
               {weaponChallenges.map((camo) => (
                 <div
                   key={camo.name}
                   className="flex items-center space-x-2 sm:space-x-3 group"
-                  onClick={(e) => e.stopPropagation()} // Prevent text clicks from toggling
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <img
                     src={camo.image || 'https://via.placeholder.com/50'}

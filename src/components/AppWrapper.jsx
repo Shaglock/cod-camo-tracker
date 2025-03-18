@@ -53,11 +53,10 @@ export default function AppWrapper() {
     const weaponChallenges = challengesData[weapon] || [];
     const specialCamos = weaponChallenges
       .filter((c) => !['Gold', 'Diamond', 'Dark Spine', 'Dark Matter'].includes(c.name))
-      .map((c) => c.name); // All non-standard camos are special
+      .map((c) => c.name);
 
     let updatedData = { ...currentData };
 
-    // Define camo hierarchy with special camos as optional base
     const camoHierarchy = {
       'Gold': specialCamos,
       'Diamond': ['Gold'],
@@ -66,13 +65,12 @@ export default function AppWrapper() {
     };
 
     if (status) {
-      // When checking a camo, check all prerequisites
       const prereqs = new Set();
       const findPrereqs = (targetCamo) => {
         if (camoHierarchy[targetCamo]) {
           camoHierarchy[targetCamo].forEach((prereq) => {
             prereqs.add(prereq);
-            findPrereqs(prereq); // Recursively find all prerequisites
+            findPrereqs(prereq);
           });
         }
       };
@@ -82,7 +80,6 @@ export default function AppWrapper() {
       });
       updatedData[camo] = true;
     } else {
-      // When unchecking a camo, uncheck all dependent camos
       const dependents = new Set();
       const findDependents = (targetCamo) => {
         Object.keys(camoHierarchy).forEach((key) => {
@@ -99,7 +96,6 @@ export default function AppWrapper() {
       updatedData[camo] = false;
     }
 
-    // Ensure the state update works correctly
     const newCamoSets = camoSets.map((set) =>
       set.id === activeSetId
         ? { ...set, data: { ...activeSet.data, [weapon]: updatedData } }
@@ -248,6 +244,9 @@ export default function AppWrapper() {
             expandedWeapons={expandedWeapons}
             toggleWeapon={toggleWeapon}
             sortOption={sortOption}
+            camoSets={camoSets}
+            activeSetId={activeSetId}
+            setCamoSets={setCamoSets}
           />
         ))}
       </div>
