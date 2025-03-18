@@ -10,7 +10,20 @@ export default function AppWrapper() {
     const saved = localStorage.getItem('camoSets');
     return saved ? JSON.parse(saved) : [{ id: 'default', name: 'Default', data: {} }];
   });
-  const [activeSetId, setActiveSetId] = useState('default');
+  
+  // Initialize activeSetId with the value from localStorage, or the first available set, or 'default'
+  const [activeSetId, setActiveSetId] = useState(() => {
+    const savedSetId = localStorage.getItem('activeSetId');
+    const savedSets = JSON.parse(localStorage.getItem('camoSets') || '[]');
+    
+    // Check if the saved set ID exists in the available sets
+    if (savedSetId && savedSets.some(set => set.id === savedSetId)) {
+      return savedSetId;
+    }
+    // Otherwise return the first available set ID or 'default'
+    return savedSets.length > 0 ? savedSets[0].id : 'default';
+  });
+  
   const [expandedCategories, setExpandedCategories] = useState({});
   const [expandedWeapons, setExpandedWeapons] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,6 +32,11 @@ export default function AppWrapper() {
   useEffect(() => {
     localStorage.setItem('camoSets', JSON.stringify(camoSets));
   }, [camoSets]);
+
+  // Save activeSetId to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('activeSetId', activeSetId);
+  }, [activeSetId]);
 
   const toggleCategory = (category) => {
     setExpandedCategories((prev) => ({
@@ -148,7 +166,10 @@ export default function AppWrapper() {
     if (camoSets.length > 1) {
       const newCamoSets = camoSets.filter((set) => set.id !== id);
       setCamoSets(newCamoSets);
-      setActiveSetId(newCamoSets[0].id);
+      // If we're deleting the active set, switch to the first available set
+      if (id === activeSetId) {
+        setActiveSetId(newCamoSets[0].id);
+      }
     }
   };
 
