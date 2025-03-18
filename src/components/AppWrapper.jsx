@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import WeaponCategory from './WeaponCategory';
 import Counters from './Counters';
+import SetActions from './SetActions';
+import ExpandCollapseActions from './ExpandCollapseActions';
 import { weaponCategories, challengesData } from '../constants/weaponData';
 
 export default function AppWrapper() {
@@ -165,89 +167,51 @@ export default function AppWrapper() {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-6">
       <h1 className="text-3xl sm:text-4xl font-bold text-center mb-4 sm:mb-6">COD BO6 Camos Tracker</h1>
-      <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row gap-2">
-        <input
-          type="text"
-          placeholder="Search weapons or categories..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full sm:w-auto flex-1 p-2 sm:p-3 rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base sm:text-lg"
+      
+      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+        <div className="flex-1">
+          <input
+            type="text"
+            placeholder="Search weapons or categories..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full p-2 sm:p-3 rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 h-10"
+          />
+        </div>
+        
+        <SetActions
+          camoSets={camoSets}
+          activeSetId={activeSetId}
+          setActiveSetId={setActiveSetId}
+          addNewCamoSet={addNewCamoSet}
+          duplicateCamoSet={duplicateCamoSet}
+          deleteCamoSet={deleteCamoSet}
         />
-        <select
-          value={activeSetId}
-          onChange={(e) => setActiveSetId(e.target.value)}
-          className="bg-gray-700 text-white p-2 rounded w-full sm:w-auto"
-        >
-          {camoSets.map((set) => (
-            <option key={set.id} value={set.id}>
-              {set.name}
-            </option>
-          ))}
-        </select>
-        <button
-          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full sm:w-auto"
-          onClick={addNewCamoSet}
-        >
-          New Set
-        </button>
-        <button
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full sm:w-auto"
-          onClick={duplicateCamoSet}
-        >
-          Duplicate Set
-        </button>
-        <button
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full sm:w-auto"
-          onClick={() => deleteCamoSet(activeSetId)}
-          disabled={camoSets.length <= 1}
-        >
-          Delete Set
-        </button>
       </div>
+      
       <Counters trackerData={activeTrackerData} totalWeapons={totalWeapons} />
-      <div className="flex flex-col sm:flex-row justify-between mb-4 sm:mb-6">
+      
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
         <button
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 sm:mb-0 w-full sm:w-auto"
+          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded h-10 text-sm flex items-center justify-center"
           onClick={resetAllCamouflages}
         >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6" />
+          </svg>
           Reset All Camos
         </button>
-        <div className="flex flex-col sm:flex-row">
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-0 sm:mr-2 mb-2 sm:mb-0 w-full sm:w-auto"
-            onClick={expandAllCategories}
-          >
-            Expand All Categories
-          </button>
-          <button
-            className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-0 sm:mr-2 mb-2 sm:mb-0 w-full sm:w-auto"
-            onClick={collapseAllCategories}
-          >
-            Collapse All Categories
-          </button>
-          <button
-            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mr-0 sm:mr-2 mb-2 sm:mb-0 w-full sm:w-auto"
-            onClick={expandAllWeapons}
-          >
-            Expand All Weapons
-          </button>
-          <button
-            className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full sm:w-auto"
-            onClick={collapseAllWeapons}
-          >
-            Collapse All Weapons
-          </button>
-          <select
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-            className="bg-gray-700 text-white p-2 rounded ml-2 w-full sm:w-auto"
-          >
-            <option value="none">No Sorting</option>
-            <option value="name">Sort by Name</option>
-            <option value="progress">Sort by Progress</option>
-          </select>
-        </div>
+        
+        <ExpandCollapseActions 
+          expandAllCategories={expandAllCategories}
+          collapseAllCategories={collapseAllCategories}
+          expandAllWeapons={expandAllWeapons}
+          collapseAllWeapons={collapseAllWeapons}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
+        />
       </div>
+      
       <div className="space-y-4">
         {filteredCategories.map((category) => (
           <WeaponCategory
