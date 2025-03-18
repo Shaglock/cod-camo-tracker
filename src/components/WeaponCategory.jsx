@@ -58,24 +58,32 @@ export default function WeaponCategory({
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg shadow-lg">
-      <div className="flex items-center justify-between p-3 sm:p-4">
-        <button
-          className="w-full text-left font-semibold text-lg sm:text-xl flex justify-between items-center"
-          onClick={() => toggleCategory(category.name)}
-        >
-          <span>
-            {category.name} ({category.weapons.length})
-            <span className="ml-1 sm:ml-2 text-sm sm:text-base text-gray-400">
-              {defaultCamos.map((camo) => `${categoryProgress[camo]}/${category.weapons.length} ${camo}`).join(' - ')}
-            </span>
-          </span>
-        </button>
-        <span onClick={() => toggleCategory(category.name)} className="ml-2 cursor-pointer">
-          {isExpanded ? '▲' : '▼'}
+    <div className="bg-gray-800 rounded-lg shadow-lg transition-all duration-300">
+      <div
+        className="flex items-center justify-between p-3 sm:p-4 cursor-pointer"
+        onClick={() => toggleCategory(category.name)}
+      >
+        <span className="font-semibold text-lg sm:text-xl">
+          {category.name} ({category.weapons.length})
         </span>
+        <div className="flex items-center space-x-2">
+          <span className="text-sm sm:text-base text-gray-400">
+            {defaultCamos.map((camo) => `${categoryProgress[camo]}/${category.weapons.length} ${camo}`).join(' - ')}
+          </span>
+          <span
+            className={`ml-2 transform transition-transform duration-300 ${
+              isExpanded ? 'rotate-180' : 'rotate-0'
+            }`}
+          >
+            ▼
+          </span>
+        </div>
       </div>
-      {isExpanded && (
+      <div
+        className={`overflow-hidden transition-all duration-500 ${
+          isExpanded ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
         <div className="p-2 sm:p-4">
           <button
             className={`${
@@ -104,7 +112,7 @@ export default function WeaponCategory({
             ))}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

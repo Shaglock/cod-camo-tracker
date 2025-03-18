@@ -15,7 +15,7 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
     <div className="bg-gray-700 rounded-lg shadow-md transition-all duration-200 min-h-[100px] sm:min-h[120px]">
       {/* Header with name and image */}
       <div
-        className="flex items-center justify-between p-2 sm:p-3 border-b border-gray-600 cursor-pointer"
+        className="flex items-center justify-between p-2 sm:p-3 border-b border-gray-600 cursor-pointer transition-all duration-300"
         onClick={() => toggleWeapon(weapon.name)}
       >
         <div className="flex items-center w-full space-x-2 sm:space-x-3">
@@ -28,11 +28,19 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
             {weapon.name}
           </span>
         </div>
-        <span className="text-sm sm:text-base md:text-lg">{isExpanded ? '▲' : '▼'}</span>
+        <span
+          className={`text-sm sm:text-base md:text-lg transform transition-transform duration-300 cursor-pointer ${
+            isExpanded ? 'rotate-180' : 'rotate-0'
+          }`}
+        >
+          ▼
+        </span>
       </div>
-
-      {/* Expanded section with Complete All button and challenges */}
-      {isExpanded && (
+      <div
+        className={`overflow-hidden transition-all duration-500 ${
+          isExpanded ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
         <div className="p-2 sm:p-3">
           <button
             className={`${
@@ -52,16 +60,18 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
               {weaponChallenges.map((camo) => (
                 <div
                   key={camo.name}
-                  className="flex items-center space-x-2 sm:space-x-3 group"
-                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center space-x-2 sm:space-x-3 group cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    updateCamoStatus(weapon.name, camo.name, !trackerData[camo.name]);
+                  }}
                 >
                   <img
                     src={camo.image || 'https://via.placeholder.com/50'}
                     alt={camo.name}
-                    className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded cursor-pointer transition-opacity duration-200 ${
+                    className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded transition-opacity duration-200 ${
                       trackerData[camo.name] ? 'opacity-100' : 'opacity-50 group-hover:opacity-75'
                     }`}
-                    onClick={() => updateCamoStatus(weapon.name, camo.name, !trackerData[camo.name])}
                   />
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-xs sm:text-sm md:text-base truncate">
@@ -78,7 +88,7 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
             <p className="text-gray-400 text-xs sm:text-sm">No challenges available</p>
           )}
         </div>
-      )}
+      </div>
     </div>
   );
 }

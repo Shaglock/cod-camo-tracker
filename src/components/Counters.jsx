@@ -32,17 +32,24 @@ function Counters({ trackerData, totalWeapons }) {
         {Object.keys(camoCounts).map((camo) => (
           <div
             key={camo}
-            className="bg-gray-700 p-2 sm:p-4 rounded-lg text-white relative overflow-hidden"
+            className="bg-gray-700 p-2 sm:p-4 rounded-lg text-white relative overflow-hidden group"
             style={{
               backgroundImage: `url(${camoImages[camo]})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
+            title={`${camoCounts[camo]} out of ${totalWeapons} completed`}
           >
             <div className="absolute inset-0 bg-black opacity-50"></div>
             <div className="relative z-10">
               <p className="text-base sm:text-lg font-medium">{camo}</p>
               <p className="text-sm sm:text-base">{camoCounts[camo]}/{totalWeapons}</p>
+              <div className="w-full bg-gray-600 rounded-full h-2 mt-2">
+                <div
+                  className="bg-green-500 h-2 rounded-full"
+                  style={{ width: `${(camoCounts[camo] / totalWeapons) * 100}%` }}
+                ></div>
+              </div>
             </div>
           </div>
         ))}

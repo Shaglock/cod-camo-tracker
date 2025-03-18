@@ -264,7 +264,7 @@ export default function AppWrapper() {
             camoSets={camoSets}
             activeSetId={activeSetId}
             setCamoSets={setCamoSets}
-            setAllCamosStatus={setAllCamosStatus} // Pass the function to WeaponCategory
+            setAllCamosStatus={setAllCamosStatus}
           />
         ))}
       </div>
