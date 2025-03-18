@@ -11,7 +11,7 @@ export default function AppWrapper() {
   const [expandedCategories, setExpandedCategories] = useState({});
   const [expandedWeapons, setExpandedWeapons] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortOption, setSortOption] = useState('name'); // 'name' or 'progress'
+  const [sortOption, setSortOption] = useState('none'); // Default to no sorting
 
   useEffect(() => {
     localStorage.setItem('camoTracker', JSON.stringify(trackerData));
@@ -101,6 +101,7 @@ export default function AppWrapper() {
             onChange={(e) => setSortOption(e.target.value)}
             className="bg-gray-700 text-white p-2 rounded ml-2 w-full sm:w-auto"
           >
+            <option value="none">No Sorting</option>
             <option value="name">Sort by Name</option>
             <option value="progress">Sort by Progress</option>
           </select>

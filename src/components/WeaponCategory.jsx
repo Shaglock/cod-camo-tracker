@@ -2,7 +2,7 @@ import React from 'react';
 import Weapon from './Weapon';
 import { defaultCamos } from '../constants/weaponData';
 
-function WeaponCategory({
+export default function WeaponCategory({
   category,
   weapons,
   trackerData,
@@ -18,15 +18,16 @@ function WeaponCategory({
     return acc;
   }, {});
 
-  // Sort weapons based on sortOption
-  const sortedWeapons = [...weapons].sort((a, b) => {
+  // Sort weapons based on sortOption, default to original order if 'none'
+  const sortedWeapons = sortOption === 'none' ? weapons : [...weapons].sort((a, b) => {
     if (sortOption === 'progress') {
       const aProgress = defaultCamos.filter((camo) => trackerData[a.name]?.[camo] || false).length;
       const bProgress = defaultCamos.filter((camo) => trackerData[b.name]?.[camo] || false).length;
       return bProgress - aProgress; // Descending order by progress
-    } else {
+    } else if (sortOption === 'name') {
       return a.name.localeCompare(b.name); // Alphabetical order
     }
+    return 0; // No change for 'none'
   });
 
   return (
@@ -61,4 +62,3 @@ function WeaponCategory({
   );
 }
 
-export default WeaponCategory;
