@@ -1,17 +1,18 @@
 import React from 'react';
 import { challengesData } from '../constants/weaponData';
 
-export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapon }) {
+export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapon, setAllCamosStatus }) {
   const weaponChallenges = challengesData[weapon.name] || [];
 
+  const allCamosCompleted = weaponChallenges.length > 0 && weaponChallenges.every((camo) => trackerData[camo.name]);
+
   const completeAllCamos = () => {
-    weaponChallenges.forEach((camo) => {
-      updateCamoStatus(weapon.name, camo.name, true);
-    });
+    const newStatus = !allCamosCompleted; // Toggle based on current state
+    setAllCamosStatus(weapon.name, newStatus);
   };
 
   return (
-    <div className="bg-gray-700 rounded-lg shadow-md transition-all duration-200 min-h-[100px] sm:min-h-[120px]">
+    <div className="bg-gray-700 rounded-lg shadow-md transition-all duration-200 min-h-[100px] sm:min-h[120px]">
       {/* Header with name and image */}
       <div
         className="flex items-center justify-between p-2 sm:p-3 border-b border-gray-600 cursor-pointer"
@@ -21,7 +22,7 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
           <img
             src={weapon.image || 'https://via.placeholder.com/1600x480'}
             alt={weapon.name}
-            className="h-14 sm:h-16 md:h-20 lg:h-24 object-contain rounded max-w-[50%] sm:max-w-[40%]"
+            className="h-14 sm:h-16 md:h-20 lg:h-24 object-contain rounded max-w-[50%] sm:max-w[40%]"
           />
           <span className="font-semibold text-sm sm:text-base md:text-lg whitespace-normal break-words flex-1">
             {weapon.name}
@@ -34,13 +35,17 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
       {isExpanded && (
         <div className="p-2 sm:p-3">
           <button
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs sm:text-sm mb-2 w-full sm:w-auto"
+            className={`${
+              allCamosCompleted
+                ? 'bg-red-600 hover:bg-red-700'
+                : 'bg-green-600 hover:bg-green-700'
+            } text-white font-bold py-1 px-2 rounded text-xs sm:text-sm mb-2 w-full sm:w-auto`}
             onClick={(e) => {
               e.stopPropagation();
               completeAllCamos();
             }}
           >
-            Complete All Camos
+            {allCamosCompleted ? 'Uncomplete All Camos' : 'Complete All Camos'}
           </button>
           {weaponChallenges.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">

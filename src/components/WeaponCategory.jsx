@@ -15,6 +15,7 @@ export default function WeaponCategory({
   camoSets,
   activeSetId,
   setCamoSets,
+  setAllCamosStatus,
 }) {
   const categoryProgress = defaultCamos.reduce((acc, camo) => {
     acc[camo] = weapons.filter((weapon) => trackerData[weapon.name]?.[camo] || false).length;
@@ -32,17 +33,21 @@ export default function WeaponCategory({
     return 0;
   });
 
+  const allWeaponsCompleted = weapons.every((weapon) => {
+    const weaponChallenges = challengesData[weapon.name] || [];
+    return weaponChallenges.every((camo) => trackerData[weapon.name]?.[camo.name]);
+  });
+
   const completeAllWeaponsCamos = () => {
     const activeSet = camoSets.find((set) => set.id === activeSetId);
     let updatedData = { ...activeSet.data };
+    const newStatus = !allWeaponsCompleted; // Toggle based on current state
 
     weapons.forEach((weapon) => {
       const weaponChallenges = challengesData[weapon.name] || [];
       updatedData[weapon.name] = updatedData[weapon.name] || {};
       weaponChallenges.forEach((camo) => {
-        updatedData[weapon.name][camo.name] = true;
-        // Trigger hierarchy logic for each camo
-        updateCamoStatus(weapon.name, camo.name, true);
+        updatedData[weapon.name][camo.name] = newStatus;
       });
     });
 
@@ -73,13 +78,17 @@ export default function WeaponCategory({
       {isExpanded && (
         <div className="p-2 sm:p-4">
           <button
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs sm:text-sm mb-4 w-full sm:w-auto"
+            className={`${
+              allWeaponsCompleted
+                ? 'bg-red-600 hover:bg-red-700'
+                : 'bg-green-600 hover:bg-green-700'
+            } text-white font-bold py-1 px-2 rounded text-xs sm:text-sm mb-4 w-full sm:w-auto`}
             onClick={(e) => {
               e.stopPropagation();
               completeAllWeaponsCamos();
             }}
           >
-            Complete All Weapons Camos
+            {allWeaponsCompleted ? 'Uncomplete All Weapons Camos' : 'Complete All Weapons Camos'}
           </button>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
             {sortedWeapons.map((weapon) => (
@@ -90,6 +99,7 @@ export default function WeaponCategory({
                 updateCamoStatus={updateCamoStatus}
                 isExpanded={expandedWeapons[weapon.name] || false}
                 toggleWeapon={toggleWeapon}
+                setAllCamosStatus={setAllCamosStatus} // Ensure it's passed to Weapon
               />
             ))}
           </div>

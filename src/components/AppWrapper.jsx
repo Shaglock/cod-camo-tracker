@@ -86,7 +86,7 @@ export default function AppWrapper() {
           if (camoHierarchy[key].includes(targetCamo)) {
             dependents.add(key);
             findDependents(key);
-          }
+          };
         });
       };
       findDependents(camo);
@@ -95,6 +95,23 @@ export default function AppWrapper() {
       });
       updatedData[camo] = false;
     }
+
+    const newCamoSets = camoSets.map((set) =>
+      set.id === activeSetId
+        ? { ...set, data: { ...activeSet.data, [weapon]: updatedData } }
+        : set
+    );
+    setCamoSets(newCamoSets);
+  };
+
+  const setAllCamosStatus = (weapon, status) => {
+    const activeSet = camoSets.find((set) => set.id === activeSetId);
+    const weaponChallenges = challengesData[weapon] || [];
+    const updatedData = { ...activeSet.data[weapon] || {} };
+
+    weaponChallenges.forEach((camo) => {
+      updatedData[camo.name] = status;
+    });
 
     const newCamoSets = camoSets.map((set) =>
       set.id === activeSetId
@@ -247,6 +264,7 @@ export default function AppWrapper() {
             camoSets={camoSets}
             activeSetId={activeSetId}
             setCamoSets={setCamoSets}
+            setAllCamosStatus={setAllCamosStatus} // Pass the function to WeaponCategory
           />
         ))}
       </div>
