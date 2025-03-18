@@ -1,13 +1,16 @@
 import React from 'react';
 import { challengesData } from '../constants/weaponData';
 
-function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapon }) {
+export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapon }) {
   const weaponChallenges = challengesData[weapon.name] || [];
 
   return (
     <div className="bg-gray-700 rounded-lg shadow-md transition-all duration-200 min-h-[100px] sm:min-h-[120px]">
-      {/* Header with name and image, always visible */}
-      <div className="flex items-center justify-between p-2 sm:p-3">
+      {/* Header with name and image, responsible for expanding */}
+      <div
+        className="flex items-center justify-between p-2 sm:p-3 border-b border-gray-600 cursor-pointer"
+        onClick={() => toggleWeapon(weapon.name)} // Only the header toggles
+      >
         <div className="flex items-center w-full space-x-2 sm:space-x-3">
           <img
             src={weapon.image || 'https://via.placeholder.com/1600x480'}
@@ -18,12 +21,7 @@ function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapo
             {weapon.name}
           </span>
         </div>
-        <button
-          className="ml-1 sm:ml-2 focus:outline-none"
-          onClick={() => toggleWeapon(weapon.name)}
-        >
-          <span className="text-sm sm:text-base md:text-lg">{isExpanded ? '▲' : '▼'}</span>
-        </button>
+        <span className="text-sm sm:text-base md:text-lg">{isExpanded ? '▲' : '▼'}</span>
       </div>
 
       {/* Challenges section, collapsible */}
@@ -35,6 +33,7 @@ function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapo
                 <div
                   key={camo.name}
                   className="flex items-center space-x-2 sm:space-x-3 group"
+                  onClick={(e) => e.stopPropagation()} // Prevent text clicks from toggling
                 >
                   <img
                     src={camo.image || 'https://via.placeholder.com/50'}
@@ -42,9 +41,7 @@ function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapo
                     className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded cursor-pointer transition-opacity duration-200 ${
                       trackerData[camo.name] ? 'opacity-100' : 'opacity-50 group-hover:opacity-75'
                     }`}
-                    onClick={() =>
-                      updateCamoStatus(weapon.name, camo.name, !trackerData[camo.name])
-                    }
+                    onClick={() => updateCamoStatus(weapon.name, camo.name, !trackerData[camo.name])}
                   />
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-xs sm:text-sm md:text-base truncate">
@@ -65,5 +62,3 @@ function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapo
     </div>
   );
 }
-
-export default Weapon;
