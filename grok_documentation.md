@@ -19,6 +19,8 @@ Delete Set: Removes the current set (disabled if only one set exists to prevent 
 
 Active Set Selection: A dropdown allows switching between sets, with progress saved to local storage.
 
+Import/Export: Import and export sets as JSON files for backup or sharing.
+
 Persistence: Camos progress is saved to localStorage and persists across page reloads.
 
 3. Category and Weapon Organization
@@ -55,7 +57,7 @@ Reset All Camos: A button to clear all camo progress for the active set, resetti
 Getting Started
 Open the app in a web browser.
 
-The default set ("Default") is loaded with no progress.
+The most recently used set is loaded by default.
 
 Use the features below to track your camo progress.
 
@@ -67,6 +69,8 @@ Create New Set: Click "New Set," enter a name, and switch to it.
 Duplicate Set: Click "Duplicate Set," enter a name, and switch to the copy.
 
 Delete Set: Click "Delete Set" (if more than one set exists) to remove the current set.
+
+Import/Export: Use the Import and Export buttons to save your sets to a file or load from a file.
 
 Tracking Camos
 Expand a Category: Click the category name or arrow to view weapons.
@@ -83,6 +87,11 @@ Bulk Actions
 Category Toggle: In an expanded category, click the button to complete/uncomplete all camos for all weapons.
 
 Reset: Click "Reset All Camos" to start fresh.
+
+Sharing Progress
+Export: Click the "Export" button to save all your camo sets to a JSON file.
+
+Import: Click the "Import" button to load camo sets from a JSON file. Choose to either replace your existing sets or add the imported sets to your collection.
 
 ## Technical Details
 ### Technology Stack
@@ -103,6 +112,8 @@ Weapon: Renders a weapon with camos and the weapon-level toggle button.
 
 Counters: Displays progress statistics.
 
+ImportExportActions: Handles importing and exporting camo sets.
+
 ### Key Functions
 updateCamoStatus(weapon, camo, status): Toggles individual camo status with hierarchy logic (prerequisites and dependents).
 
@@ -110,10 +121,14 @@ setAllCamosStatus(weapon, status): Toggles all camos for a weapon without hierar
 
 completeAllWeaponsCamos(): Toggles all camos for all weapons in a category without hierarchy logic.
 
+importSets(newSets): Imports camo sets from a JSON file.
+
+exportSets(): Exports current camo sets to a JSON file.
+
 ### State Management
 camoSets: Array of objects { id, name, data } stored in localStorage.
 
-activeSetId: String identifying the current set.
+activeSetId: String identifying the current set, also stored in localStorage.
 
 expandedCategories: Object tracking expanded category states.
 
@@ -138,8 +153,6 @@ No validation for malformed challengesData (assumes correct structure).
 Mobile layout might need further optimization for edge cases.
 
 ### Future Enhancements
-Add export/import functionality for camo sets.
-
 Implement cloud sync for multi-device use.
 
 Add progress percentages or visual charts.

@@ -3,6 +3,7 @@ import WeaponCategory from './WeaponCategory';
 import Counters from './Counters';
 import SetActions from './SetActions';
 import ExpandCollapseActions from './ExpandCollapseActions';
+import ImportExportActions from './ImportExportActions';
 import { weaponCategories, challengesData } from '../constants/weaponData';
 
 export default function AppWrapper() {
@@ -185,6 +186,60 @@ export default function AppWrapper() {
 
   const activeTrackerData = camoSets.find((set) => set.id === activeSetId)?.data || {};
 
+  // Import sets handler
+  const importSets = (newSets) => {
+    if (!newSets || !newSets.length) {
+      alert('No sets found in the import file.');
+      return;
+    }
+
+    // Ask the user if they want to replace or add to existing sets
+    const action = window.confirm(
+      `Do you want to replace your existing sets with the imported sets?\n\n` +
+      `Click "OK" to replace all existing sets.\n` +
+      `Click "Cancel" to add the imported sets to your existing collection.`
+    );
+
+    // Check for duplicate names and add a suffix if needed
+    const ensureUniqueName = (name, existingSets) => {
+      let uniqueName = name;
+      let counter = 1;
+      while (existingSets.some(set => set.name === uniqueName)) {
+        uniqueName = `${name} (${counter})`;
+        counter++;
+      }
+      return uniqueName;
+    };
+
+    // Generate new IDs for imported sets to avoid conflicts
+    const processedSets = newSets.map(set => {
+      const newId = `set_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      return {
+        ...set,
+        id: newId
+      };
+    });
+
+    if (action) {
+      // Replace all sets
+      setCamoSets(processedSets);
+      setActiveSetId(processedSets[0].id);
+    } else {
+      // Add to existing sets, ensuring unique names
+      const updatedSets = [...camoSets];
+      
+      processedSets.forEach(newSet => {
+        const uniqueName = ensureUniqueName(newSet.name, updatedSets);
+        updatedSets.push({
+          ...newSet,
+          name: uniqueName
+        });
+      });
+      
+      setCamoSets(updatedSets);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-6">
       <h1 className="text-3xl sm:text-4xl font-bold text-center mb-4 sm:mb-6">COD BO6 Camos Tracker</h1>
@@ -214,17 +269,24 @@ export default function AppWrapper() {
         />
       </div>
       
-      {/* Expand/Collapse actions */}
+      {/* Import/Export and Reset/Expand actions */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
-        <button
-          className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded h-10 text-sm flex items-center justify-center"
-          onClick={resetAllCamouflages}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-          Reset All Camos
-        </button>
+        <div className="flex flex-row items-center gap-2 w-full sm:w-auto">
+          <button
+            className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded h-10 text-sm flex items-center justify-center"
+            onClick={resetAllCamouflages}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            Reset All Camos
+          </button>
+          
+          <ImportExportActions 
+            camoSets={camoSets}
+            importSets={importSets}
+          />
+        </div>
         
         <ExpandCollapseActions 
           expandAllCategories={expandAllCategories}
