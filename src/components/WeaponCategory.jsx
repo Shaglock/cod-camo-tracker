@@ -58,44 +58,67 @@ export default function WeaponCategory({
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg shadow-lg transition-all duration-300">
+    <div className="bg-gray-800 rounded-lg shadow-lg transition-all duration-300 overflow-hidden">
       <div
-        className="flex items-center justify-between p-3 sm:p-4 cursor-pointer"
+        className="flex items-center justify-between p-3 sm:p-4 cursor-pointer hover:bg-gray-700 transition-colors"
         onClick={() => toggleCategory(category.name)}
       >
-        <span className="font-semibold text-lg sm:text-xl">
-          {category.name} ({category.weapons.length})
-        </span>
-        <div className="flex items-center space-x-2">
-          <span className="text-sm sm:text-base text-gray-400">
-            {defaultCamos.map((camo) => `${categoryProgress[camo]}/${category.weapons.length} ${camo}`).join(' - ')}
-          </span>
+        <div className="flex items-center">
           <span
-            className={`ml-2 transform transition-transform duration-300 ${
-              isExpanded ? 'rotate-180' : 'rotate-0'
+            className={`mr-2 transition-transform duration-300 text-gray-400 ${
+              isExpanded ? 'rotate-90' : 'rotate-0'
             }`}
           >
-            ▼
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </span>
+          <span className="font-semibold text-lg sm:text-xl">
+            {category.name} ({category.weapons.length})
+          </span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="hidden sm:flex items-center space-x-1">
+            {defaultCamos.map((camo, index) => (
+              <React.Fragment key={camo}>
+                {index > 0 && <span className="text-gray-500">-</span>}
+                <span className="text-sm text-gray-400">
+                  {categoryProgress[camo]}/{category.weapons.length} {camo}
+                </span>
+              </React.Fragment>
+            ))}
+          </div>
+          <div className="flex sm:hidden items-center">
+            <span className="text-sm text-gray-400">
+              {categoryProgress['Gold']}/{category.weapons.length} Gold
+            </span>
+          </div>
         </div>
       </div>
       <div
-        className={`overflow-hidden transition-all duration-500 ${
-          isExpanded ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
+        className={`transition-all duration-300 ease-in-out ${
+          isExpanded ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="p-2 sm:p-4">
+        <div className="p-2 sm:p-4 border-t border-gray-700">
           <button
             className={`${
               allWeaponsCompleted
-                ? 'bg-red-600 hover:bg-red-700'
-                : 'bg-green-600 hover:bg-green-700'
-            } text-white font-bold py-1 px-2 rounded text-xs sm:text-sm mb-4 w-full sm:w-auto`}
+                ? 'bg-indigo-700 hover:bg-indigo-800'
+                : 'bg-indigo-500 hover:bg-indigo-600'
+            } text-white font-bold py-1 px-2 rounded text-xs sm:text-sm mb-4 h-8 flex items-center justify-center`}
             onClick={(e) => {
               e.stopPropagation();
               completeAllWeaponsCamos();
             }}
           >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {allWeaponsCompleted ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              )}
+            </svg>
             {allWeaponsCompleted ? 'Uncomplete All Weapons Camos' : 'Complete All Weapons Camos'}
           </button>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
@@ -107,7 +130,7 @@ export default function WeaponCategory({
                 updateCamoStatus={updateCamoStatus}
                 isExpanded={expandedWeapons[weapon.name] || false}
                 toggleWeapon={toggleWeapon}
-                setAllCamosStatus={setAllCamosStatus} // Ensure it's passed to Weapon
+                setAllCamosStatus={setAllCamosStatus}
               />
             ))}
           </div>

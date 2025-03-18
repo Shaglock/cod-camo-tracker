@@ -168,8 +168,12 @@ export default function AppWrapper() {
     <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-6">
       <h1 className="text-3xl sm:text-4xl font-bold text-center mb-4 sm:mb-6">COD BO6 Camos Tracker</h1>
       
+      {/* Overall progress */}
+      <Counters trackerData={activeTrackerData} totalWeapons={totalWeapons} />
+      
+      {/* Search and set actions */}
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
-        <div className="flex-1">
+        <div className="w-full sm:flex-1">
           <input
             type="text"
             placeholder="Search weapons or categories..."
@@ -189,15 +193,14 @@ export default function AppWrapper() {
         />
       </div>
       
-      <Counters trackerData={activeTrackerData} totalWeapons={totalWeapons} />
-      
+      {/* Expand/Collapse actions */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
         <button
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded h-10 text-sm flex items-center justify-center"
+          className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded h-10 text-sm flex items-center justify-center"
           onClick={resetAllCamouflages}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6" />
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
           Reset All Camos
         </button>
@@ -212,6 +215,7 @@ export default function AppWrapper() {
         />
       </div>
       
+      {/* Weapon categories */}
       <div className="space-y-4">
         {filteredCategories.map((category) => (
           <WeaponCategory
