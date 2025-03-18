@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-import WeaponCategory from '../components/WeaponCategory';
-import Counters from '../components/Counters';
+import WeaponCategory from './WeaponCategory';
+import Counters from './Counters';
 import { weaponCategories } from '../constants/weaponData';
 
-export const Route = createFileRoute('/grok')({
-  component: AppWrapper,
-});
-
-function AppWrapper() {
+export default function AppWrapper() {
   const [trackerData, setTrackerData] = useState(() => {
     const saved = localStorage.getItem('camoTracker');
     return saved ? JSON.parse(saved) : {};
@@ -16,6 +11,7 @@ function AppWrapper() {
   const [expandedCategories, setExpandedCategories] = useState({});
   const [expandedWeapons, setExpandedWeapons] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortOption, setSortOption] = useState('name'); // 'name' or 'progress'
 
   useEffect(() => {
     localStorage.setItem('camoTracker', JSON.stringify(trackerData));
@@ -57,10 +53,8 @@ function AppWrapper() {
     }));
   };
 
-  // Calculate total number of weapons dynamically
   const totalWeapons = weaponCategories.reduce((acc, category) => acc + category.weapons.length, 0);
 
-  // Filter categories and weapons based on search term
   const filteredCategories = weaponCategories.map((category) => ({
     ...category,
     weapons: category.weapons.filter((weapon) =>
@@ -102,6 +96,14 @@ function AppWrapper() {
           >
             Collapse All
           </button>
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+            className="bg-gray-700 text-white p-2 rounded ml-2 w-full sm:w-auto"
+          >
+            <option value="name">Sort by Name</option>
+            <option value="progress">Sort by Progress</option>
+          </select>
         </div>
       </div>
       <div className="space-y-4">
@@ -116,6 +118,7 @@ function AppWrapper() {
             toggleCategory={toggleCategory}
             expandedWeapons={expandedWeapons}
             toggleWeapon={toggleWeapon}
+            sortOption={sortOption}
           />
         ))}
       </div>

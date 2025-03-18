@@ -2,12 +2,33 @@ import React from 'react';
 import Weapon from './Weapon';
 import { defaultCamos } from '../constants/weaponData';
 
-function WeaponCategory({ category, weapons, trackerData, updateCamoStatus, isExpanded, toggleCategory, expandedWeapons, toggleWeapon }) {
+function WeaponCategory({
+  category,
+  weapons,
+  trackerData,
+  updateCamoStatus,
+  isExpanded,
+  toggleCategory,
+  expandedWeapons,
+  toggleWeapon,
+  sortOption,
+}) {
   const categoryProgress = defaultCamos.reduce((acc, camo) => {
     acc[camo] = weapons.filter((weapon) => trackerData[weapon.name]?.[camo] || false).length;
     return acc;
   }, {});
-  
+
+  // Sort weapons based on sortOption
+  const sortedWeapons = [...weapons].sort((a, b) => {
+    if (sortOption === 'progress') {
+      const aProgress = defaultCamos.filter((camo) => trackerData[a.name]?.[camo] || false).length;
+      const bProgress = defaultCamos.filter((camo) => trackerData[b.name]?.[camo] || false).length;
+      return bProgress - aProgress; // Descending order by progress
+    } else {
+      return a.name.localeCompare(b.name); // Alphabetical order
+    }
+  });
+
   return (
     <div className="bg-gray-800 rounded-lg shadow-lg">
       <button
@@ -24,7 +45,7 @@ function WeaponCategory({ category, weapons, trackerData, updateCamoStatus, isEx
       </button>
       {isExpanded && (
         <div className="p-2 sm:p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
-          {weapons.map((weapon) => (
+          {sortedWeapons.map((weapon) => (
             <Weapon
               key={weapon.name}
               weapon={weapon}

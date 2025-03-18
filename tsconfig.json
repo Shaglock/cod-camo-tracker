@@ -1,5 +1,5 @@
 {
-  "include": ["**/*.ts", "**/*.tsx", "src/routes/grok.jsx"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.jsx"],
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "react-jsx",

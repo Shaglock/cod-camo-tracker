@@ -11,16 +11,9 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as GrokImport } from './routes/grok'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
-
-const GrokRoute = GrokImport.update({
-  id: '/grok',
-  path: '/grok',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -39,13 +32,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/grok': {
-      id: '/grok'
-      path: '/grok'
-      fullPath: '/grok'
-      preLoaderRoute: typeof GrokImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -53,37 +39,32 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/grok': typeof GrokRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/grok': typeof GrokRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/grok': typeof GrokRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/grok'
+  fullPaths: '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/grok'
-  id: '__root__' | '/' | '/grok'
+  to: '/'
+  id: '__root__' | '/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  GrokRoute: typeof GrokRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  GrokRoute: GrokRoute,
 }
 
 export const routeTree = rootRoute
@@ -96,15 +77,11 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/grok"
+        "/"
       ]
     },
     "/": {
-      "filePath": "index.tsx"
-    },
-    "/grok": {
-      "filePath": "grok.jsx"
+      "filePath": "index.jsx"
     }
   }
 }
