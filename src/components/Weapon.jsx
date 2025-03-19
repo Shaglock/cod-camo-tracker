@@ -17,13 +17,14 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
   
   const weaponCategory = findWeaponCategory();
   
-  // Check if a camo is actually available based on requirements
+  // Function to check if a camo is available based on requirements
   const isCamoAvailable = (camoName) => {
     // Base camos are always available
     if (camoName !== 'Diamond' && camoName !== 'Dark Spine' && camoName !== 'Dark Matter') {
       return true;
     }
     
+    // Logic for Diamond camo availability
     if (camoName === 'Diamond') {
       if (!weaponCategory) return false;
       
@@ -53,6 +54,7 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
       return goldCount >= getGoldRequirement(weaponCategory);
     }
     
+    // Logic for Dark Spine camo availability
     if (camoName === 'Dark Spine') {
       // For Dark Spine, check if 33 weapons have Diamond
       let diamondCount = 0;
@@ -69,6 +71,7 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
       return diamondCount >= 33;
     }
     
+    // Logic for Dark Matter camo availability
     if (camoName === 'Dark Matter') {
       // For Dark Matter, check if 33 weapons have Dark Spine
       let darkSpineCount = 0;

@@ -1,7 +1,8 @@
 {
-  "name": "cod-tracker-gemini",
+  "name": "cod-camo-tracker",
   "private": true,
   "type": "module",
+  "homepage": "https://shaglock.github.io/cod-camo-tracker",
   "scripts": {
     "start": "vite --port 3000",
     "build": "vite build && tsc",

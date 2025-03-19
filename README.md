@@ -1,3 +1,18 @@
+# COD BO6 Camos Tracker
+
+A web application to track and manage your Call of Duty: Black Ops 6 weapon camo challenges and progress.
+
+## Features
+
+- **Track Progress**: Monitor your progress for Gold, Diamond, Dark Spine, and Dark Matter camos.
+- **Multiple Sets**: Manage multiple camo sets for different playstyles or goals.
+- **Category Requirements**: Automatically calculate category-specific requirements for unlocking Diamond and other camos.
+- **Import/Export**: Save and share your camo sets as JSON files.
+- **Mobile-Friendly**: Fully responsive design for use on any device.
+
+
+
+
 Welcome to your new TanStack app! 
 
 # Getting Started
