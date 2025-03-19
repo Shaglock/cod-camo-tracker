@@ -1,17 +1,110 @@
 import React from 'react';
-import { challengesData } from '../constants/weaponData';
+import { challengesData, weaponCategories } from '../constants/weaponData';
+import { getCountingCategories, getGoldRequirement } from '../constants/categoryRequirements';
 
 export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapon, setAllCamosStatus }) {
   const weaponChallenges = challengesData[weapon.name] || [];
-  const allCamosCompleted = weaponChallenges.length > 0 && weaponChallenges.every((camo) => trackerData[camo.name]);
   
-  // Calculate completion percentage
-  const completedCount = weaponChallenges.filter(camo => trackerData[camo.name]).length;
-  const totalCamos = weaponChallenges.length;
-  const completionPercentage = totalCamos > 0 ? (completedCount / totalCamos) * 100 : 0;
+  // Find which category this weapon belongs to
+  const findWeaponCategory = () => {
+    for (const category of weaponCategories) {
+      if (category.weapons.some(w => w.name === weapon.name)) {
+        return category.name;
+      }
+    }
+    return null;
+  };
+  
+  const weaponCategory = findWeaponCategory();
+  
+  // Check if a camo is actually available based on requirements
+  const isCamoAvailable = (camoName) => {
+    // Base camos are always available
+    if (camoName !== 'Diamond' && camoName !== 'Dark Spine' && camoName !== 'Dark Matter') {
+      return true;
+    }
+    
+    if (camoName === 'Diamond') {
+      if (!weaponCategory) return false;
+      
+      // Create temporary data with this weapon marked as Gold
+      const tempData = { ...trackerData, Gold: true };
+      
+      // Count gold weapons in relevant categories
+      const countingCategories = getCountingCategories(weaponCategory);
+      let goldCount = 0;
+      
+      // Count gold weapons across all relevant categories
+      for (const category of weaponCategories) {
+        if (!countingCategories.includes(category.name)) continue;
+        
+        for (const w of category.weapons) {
+          // If it's the current weapon, use our temp data
+          if (w.name === weapon.name) {
+            if (tempData.Gold) goldCount++;
+          } 
+          // Otherwise check the tracker data
+          else if (trackerData[w.name]?.Gold) {
+            goldCount++;
+          }
+        }
+      }
+      
+      return goldCount >= getGoldRequirement(weaponCategory);
+    }
+    
+    if (camoName === 'Dark Spine') {
+      // For Dark Spine, check if 33 weapons have Diamond
+      let diamondCount = 0;
+      for (const category of weaponCategories) {
+        for (const w of category.weapons) {
+          if (w.name === weapon.name) {
+            // For this weapon, we'll assume it has Diamond
+            if (trackerData.Diamond || trackerData.Gold) diamondCount++;
+          } else if (trackerData[w.name]?.Diamond) {
+            diamondCount++;
+          }
+        }
+      }
+      return diamondCount >= 33;
+    }
+    
+    if (camoName === 'Dark Matter') {
+      // For Dark Matter, check if 33 weapons have Dark Spine
+      let darkSpineCount = 0;
+      for (const category of weaponCategories) {
+        for (const w of category.weapons) {
+          if (w.name === weapon.name) {
+            // For this weapon, we'll assume it has Dark Spine
+            if (trackerData['Dark Spine'] || trackerData.Diamond) darkSpineCount++;
+          } else if (trackerData[w.name]?.['Dark Spine']) {
+            darkSpineCount++;
+          }
+        }
+      }
+      return darkSpineCount >= 33;
+    }
+    
+    return false;
+  };
+  
+  // Calculate for button behavior - only available camos
+  const availableCamos = weaponChallenges.filter(camo => isCamoAvailable(camo.name));
+  const availableCompletedCount = availableCamos.filter(camo => trackerData[camo.name]).length;
+  
+  // Calculate for display - all camos regardless of availability
+  const totalCompletedCount = weaponChallenges.filter(camo => trackerData[camo.name]).length;
+  const totalCamosCount = weaponChallenges.length;
+  
+  // Only available camos affect the "all completed" state (for button toggling)
+  const allCamosCompleted = availableCamos.length > 0 && 
+    availableCamos.every(camo => trackerData[camo.name]);
+  
+  // For the progress bar, use percentage based on all camos (for display)
+  const completionPercentage = totalCamosCount > 0 ? (totalCompletedCount / totalCamosCount) * 100 : 0;
   
   const completeAllCamos = () => {
-    const newStatus = !allCamosCompleted; // Toggle based on current state
+    const newStatus = !allCamosCompleted;
     setAllCamosStatus(weapon.name, newStatus);
   };
 
@@ -39,13 +132,13 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
               </div>
             )}
             
-            {/* Progress indicator */}
-            {completedCount > 0 && (
+            {/* Progress indicator - uses totalCompletedCount for display */}
+            {totalCompletedCount > 0 && (
               <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gray-600 rounded-b overflow-hidden">
                 <div 
                   className="h-full bg-green-500" 
                   style={{ width: `${completionPercentage}%` }}
-                  title={`${completedCount}/${totalCamos} completed (${Math.round(completionPercentage)}%)`}
+                  title={`${totalCompletedCount}/${totalCamosCount} completed (${Math.round(completionPercentage)}%)`}
                 ></div>
               </div>
             )}
@@ -55,7 +148,8 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
               {weapon.name}
             </span>
             <div className="text-xs text-gray-400">
-              {completedCount}/{totalCamos} camos
+              {/* Display shows total counts */}
+              {totalCompletedCount}/{totalCamosCount} camos
             </div>
           </div>
         </div>
