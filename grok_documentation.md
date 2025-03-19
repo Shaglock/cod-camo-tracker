@@ -9,6 +9,20 @@ Toggle Completion: Click a camo image to toggle its completion status. When a hi
 
 Visual Feedback: Completed camos display at full opacity, while incomplete ones are semi-transparent, with a hover effect to indicate interactivity.
 
+Category Requirements: 
+- Diamond camos require a specific number of Gold weapons per category:
+  - Assault Rifles: 7 gold weapons
+  - SMGs: 6 gold weapons
+  - LMGs: 3 gold weapons
+  - Shotguns: 2 gold weapons
+  - Pistols: 4 gold weapons
+  - Marksman Rifles: 4 gold weapons
+  - Sniper Rifles: 3 gold weapons
+  - Melee: 2 gold weapons
+  - Launchers & Special: 2 gold weapons combined (these categories are merged for requirements)
+- Dark Spine camo: Requires Diamond on at least 33 weapons (from any category)
+- Dark Matter camo: Requires Dark Spine on at least 33 weapons
+
 2. Camos Sets Management
 Multiple Sets: Users can create, duplicate, and delete camo sets to track progress across different playstyles or save points.
 New Set: Adds a new set with a user-defined name (defaults to "Set X" if empty).
@@ -115,7 +129,11 @@ Counters: Displays progress statistics.
 ImportExportActions: Handles importing and exporting camo sets.
 
 ### Key Functions
-updateCamoStatus(weapon, camo, status): Toggles individual camo status with hierarchy logic (prerequisites and dependents).
+updateCamoStatus(weapon, camo, status): Toggles individual camo status with hierarchy logic (prerequisites and dependents). Enforces category-specific requirements for Diamond camos.
+
+getGoldWeaponCountByCategory(categoryName): Counts gold weapons in a category.
+
+canUnlockDiamond(categoryName): Checks if a category meets requirements to unlock Diamond.
 
 setAllCamosStatus(weapon, status): Toggles all camos for a weapon without hierarchy logic.
 
@@ -124,6 +142,10 @@ completeAllWeaponsCamos(): Toggles all camos for all weapons in a category witho
 importSets(newSets): Imports camo sets from a JSON file.
 
 exportSets(): Exports current camo sets to a JSON file.
+
+getWeaponCountWithCamo(camoName): Counts weapons with a specific camo across all categories.
+
+hasEnoughWeaponsWithCamo(camoName, requiredCount): Checks if there are enough weapons with a specific camo to meet unlock requirements.
 
 ### State Management
 camoSets: Array of objects { id, name, data } stored in localStorage.
@@ -144,6 +166,10 @@ weaponCategories: Array of objects { name, weapons } defining categories and the
 challengesData: Object mapping weapon names to arrays of { name, challenge, image } for camos.
 
 defaultCamos: Array ['Gold', 'Diamond', 'Dark Spine', 'Dark Matter'] for progress tracking.
+
+categoryRequirements: Object mapping category names to number of gold weapons required for diamond.
+
+mergedCategories: Object defining which categories share requirements (e.g., Launchers and Special).
 
 ### Known Limitations
 No server-side synchronization (data is local only).

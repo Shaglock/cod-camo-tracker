@@ -5,6 +5,7 @@ import SetActions from './SetActions';
 import ExpandCollapseActions from './ExpandCollapseActions';
 import ImportExportActions from './ImportExportActions';
 import { weaponCategories, challengesData } from '../constants/weaponData';
+import { getCountingCategories, getGoldRequirement } from '../constants/categoryRequirements';
 
 export default function AppWrapper() {
   const [camoSets, setCamoSets] = useState(() => {
@@ -68,6 +69,52 @@ export default function AppWrapper() {
     setCamoSets(newCamoSets);
   };
 
+  // Count gold weapons by category in the current active set
+  const getGoldWeaponCountByCategory = (categoryName) => {
+    const activeSet = camoSets.find((set) => set.id === activeSetId);
+    if (!activeSet) return 0;
+    
+    // Get all categories that contribute to this category's diamond requirement
+    const countingCategories = getCountingCategories(categoryName);
+    
+    // Find all weapons in these categories
+    const relevantWeapons = weaponCategories
+      .filter(cat => countingCategories.includes(cat.name))
+      .flatMap(cat => cat.weapons);
+    
+    // Count weapons with gold status
+    return relevantWeapons.filter(weapon => 
+      activeSet.data[weapon.name]?.['Gold']
+    ).length;
+  };
+
+  // Check if a category has enough gold weapons to unlock diamond
+  const canUnlockDiamond = (categoryName) => {
+    const goldCount = getGoldWeaponCountByCategory(categoryName);
+    const requirement = getGoldRequirement(categoryName);
+    return goldCount >= requirement;
+  };
+
+  // Count weapons with a specific camo across all categories
+  const getWeaponCountWithCamo = (camoName) => {
+    const activeSet = camoSets.find((set) => set.id === activeSetId);
+    if (!activeSet) return 0;
+    
+    // Get all weapons across all categories
+    const allWeapons = weaponCategories.flatMap(cat => cat.weapons);
+    
+    // Count weapons with the specified camo
+    return allWeapons.filter(weapon => 
+      activeSet.data[weapon.name]?.[camoName]
+    ).length;
+  };
+
+  // Check if there are enough weapons with a specific camo
+  const hasEnoughWeaponsWithCamo = (camoName, requiredCount) => {
+    const count = getWeaponCountWithCamo(camoName);
+    return count >= requiredCount;
+  };
+
   const updateCamoStatus = (weapon, camo, status) => {
     const activeSet = camoSets.find((set) => set.id === activeSetId);
     const currentData = activeSet.data[weapon] || {};
@@ -78,6 +125,15 @@ export default function AppWrapper() {
 
     let updatedData = { ...currentData };
 
+    // Find the weapon's category
+    let weaponCategory = null;
+    for (const category of weaponCategories) {
+      if (category.weapons.some(w => w.name === weapon)) {
+        weaponCategory = category.name;
+        break;
+      }
+    }
+
     const camoHierarchy = {
       'Gold': specialCamos,
       'Diamond': ['Gold'],
@@ -86,6 +142,78 @@ export default function AppWrapper() {
     };
 
     if (status) {
+      // If trying to enable Diamond, check if enough Gold weapons in category
+      if (camo === 'Diamond' && weaponCategory) {
+        // First, temporarily mark this weapon's Gold as true to include it in the count
+        const tempData = { 
+          ...activeSet.data,
+          [weapon]: { ...currentData, Gold: true } 
+        };
+        
+        // Create a custom function to count with our temporary data
+        const countGoldInCategory = (catName) => {
+          const countingCategories = getCountingCategories(catName);
+          const relevantWeapons = weaponCategories
+            .filter(cat => countingCategories.includes(cat.name))
+            .flatMap(cat => cat.weapons);
+          
+          return relevantWeapons.filter(w => 
+            tempData[w.name]?.['Gold']
+          ).length;
+        };
+        
+        const goldCount = countGoldInCategory(weaponCategory);
+        const requirement = getGoldRequirement(weaponCategory);
+        
+        if (goldCount < requirement) {
+          alert(`You need Gold camo on ${requirement} weapons in the ${weaponCategory} category to unlock Diamond.`);
+          return; // Stop the update if requirement not met
+        }
+      }
+      
+      // If trying to enable Dark Spine, check if there are 33 Diamond weapons
+      if (camo === 'Dark Spine') {
+        // Create temporary data with this weapon as Diamond
+        const tempData = { 
+          ...activeSet.data,
+          [weapon]: { ...currentData, Diamond: true, Gold: true } 
+        };
+        
+        // Count Diamond weapons with our temporary data
+        const allWeapons = weaponCategories.flatMap(cat => cat.weapons);
+        const diamondCount = allWeapons.filter(w => 
+          w.name === weapon ? tempData[w.name]?.['Diamond'] : activeSet.data[w.name]?.['Diamond']
+        ).length;
+        
+        const DARK_SPINE_REQUIREMENT = 33;
+        if (diamondCount < DARK_SPINE_REQUIREMENT) {
+          alert(`You need Diamond camo on at least ${DARK_SPINE_REQUIREMENT} weapons to unlock Dark Spine.`);
+          return; // Stop the update if requirement not met
+        }
+      }
+      
+      // If trying to enable Dark Matter, check if there are 33 Dark Spine weapons
+      if (camo === 'Dark Matter') {
+        // Create temporary data with this weapon as Dark Spine
+        const tempData = { 
+          ...activeSet.data,
+          [weapon]: { ...currentData, 'Dark Spine': true, Diamond: true, Gold: true } 
+        };
+        
+        // Count Dark Spine weapons with our temporary data
+        const allWeapons = weaponCategories.flatMap(cat => cat.weapons);
+        const darkSpineCount = allWeapons.filter(w => 
+          w.name === weapon ? tempData[w.name]?.['Dark Spine'] : activeSet.data[w.name]?.['Dark Spine']
+        ).length;
+        
+        const DARK_MATTER_REQUIREMENT = 33;
+        if (darkSpineCount < DARK_MATTER_REQUIREMENT) {
+          alert(`You need Dark Spine camo on at least ${DARK_MATTER_REQUIREMENT} weapons to unlock Dark Matter.`);
+          return; // Stop the update if requirement not met
+        }
+      }
+
+      // Regular hierarchy logic for prerequisites
       const prereqs = new Set();
       const findPrereqs = (targetCamo) => {
         if (camoHierarchy[targetCamo]) {
@@ -100,7 +228,9 @@ export default function AppWrapper() {
         updatedData[prereq] = true;
       });
       updatedData[camo] = true;
+      
     } else {
+      // Regular hierarchy logic for dependents
       const dependents = new Set();
       const findDependents = (targetCamo) => {
         Object.keys(camoHierarchy).forEach((key) => {
@@ -130,9 +260,90 @@ export default function AppWrapper() {
     const weaponChallenges = challengesData[weapon] || [];
     const updatedData = { ...activeSet.data[weapon] || {} };
 
-    weaponChallenges.forEach((camo) => {
-      updatedData[camo.name] = status;
-    });
+    // Find the weapon's category
+    let weaponCategory = null;
+    for (const category of weaponCategories) {
+      if (category.weapons.some(w => w.name === weapon)) {
+        weaponCategory = category.name;
+        break;
+      }
+    }
+
+    if (status) {
+      // We always allow setting basic camos and Gold
+      weaponChallenges
+        .filter(c => c.name !== 'Diamond' && c.name !== 'Dark Spine' && c.name !== 'Dark Matter')
+        .forEach(camo => {
+          updatedData[camo.name] = status;
+        });
+      
+      // For Diamond, check requirements
+      if (weaponChallenges.some(c => c.name === 'Diamond') && weaponCategory) {
+        // First, mark this weapon's Gold as true
+        updatedData['Gold'] = true;
+        
+        // Create a temporary data set with our changes so far
+        const tempData = { 
+          ...activeSet.data,
+          [weapon]: updatedData
+        };
+        
+        // Check if category meets gold requirements for diamond
+        const countGoldInCategory = (catName) => {
+          const countingCategories = getCountingCategories(catName);
+          const relevantWeapons = weaponCategories
+            .filter(cat => countingCategories.includes(cat.name))
+            .flatMap(cat => cat.weapons);
+          
+          return relevantWeapons.filter(w => 
+            w.name === weapon ? tempData[w.name]?.['Gold'] : activeSet.data[w.name]?.['Gold']
+          ).length;
+        };
+        
+        const goldCount = countGoldInCategory(weaponCategory);
+        const requirement = getGoldRequirement(weaponCategory);
+        
+        // Can we enable Diamond?
+        if (goldCount >= requirement) {
+          updatedData['Diamond'] = status;
+          
+          // Check if we can enable Dark Spine (33 Diamond weapons)
+          const tempDataWithDiamond = {
+            ...activeSet.data,
+            [weapon]: { ...updatedData }
+          };
+          
+          const diamondCount = weaponCategories.flatMap(cat => cat.weapons).filter(w => 
+            w.name === weapon ? tempDataWithDiamond[w.name]?.['Diamond'] : activeSet.data[w.name]?.['Diamond']
+          ).length;
+          
+          const DARK_SPINE_REQUIREMENT = 33;
+          if (diamondCount >= DARK_SPINE_REQUIREMENT) {
+            updatedData['Dark Spine'] = status;
+            
+            // Check if we can enable Dark Matter (33 Dark Spine weapons)
+            const tempDataWithDarkSpine = {
+              ...activeSet.data,
+              [weapon]: { ...updatedData }
+            };
+            
+            const darkSpineCount = weaponCategories.flatMap(cat => cat.weapons).filter(w => 
+              w.name === weapon ? tempDataWithDarkSpine[w.name]?.['Dark Spine'] : activeSet.data[w.name]?.['Dark Spine']
+            ).length;
+            
+            const DARK_MATTER_REQUIREMENT = 33;
+            if (darkSpineCount >= DARK_MATTER_REQUIREMENT) {
+              updatedData['Dark Matter'] = status;
+            }
+          }
+        }
+      }
+    } else {
+      // When uncompleting camos, apply to all without restrictions
+      weaponChallenges.forEach(camo => {
+        updatedData[camo.name] = status;
+      });
+    }
 
     const newCamoSets = camoSets.map((set) =>
       set.id === activeSetId
