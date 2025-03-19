@@ -10,8 +10,11 @@ A web application to track and manage your Call of Duty: Black Ops 6 weapon camo
 - **Import/Export**: Save and share your camo sets as JSON files.
 - **Mobile-Friendly**: Fully responsive design for use on any device.
 
+## Privacy Policy
 
+This application does not collect or transmit any personal data. All data, including camo tracking progress, is stored locally in your browser's `localStorage`. No data is shared with third parties.
 
+If you have any concerns about privacy, feel free to open an issue in the repository.
 
 Welcome to your new TanStack app! 
 

@@ -206,8 +206,8 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
                   <div
                     key={camo.name}
                     className={`flex items-center space-x-2 sm:space-x-3 group cursor-pointer p-1 rounded-md transition-colors ${
-                      trackerData[camo.name] 
-                        ? 'bg-gray-600' 
+                      trackerData[camo.name]
+                        ? 'bg-gray-600 ring-2 ring-green-500'
                         : 'hover:bg-gray-600 active:bg-gray-650'
                     }`}
                     onClick={(e) => {
