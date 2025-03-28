@@ -25,6 +25,12 @@ jobs:
       - name: Build Project
         run: bun run build
 
+      - name: Get Latest Commit Hash
+        run: git rev-parse HEAD > commit-hash.txt
+
+      - name: Copy Commit Hash to Dist Folder
+        run: cp commit-hash.txt dist/
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
