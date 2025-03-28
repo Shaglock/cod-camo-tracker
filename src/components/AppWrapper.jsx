@@ -63,10 +63,12 @@ export default function AppWrapper() {
   };
   const collapseAllWeapons = () => setExpandedWeapons({});
   const resetAllCamouflages = () => {
-    const newCamoSets = camoSets.map((set) =>
-      set.id === activeSetId ? { ...set, data: {} } : set
-    );
-    setCamoSets(newCamoSets);
+    if (window.confirm('Are you sure you want to reset all camouflages? This action cannot be undone.')) {
+      const newCamoSets = camoSets.map((set) =>
+        set.id === activeSetId ? { ...set, data: {} } : set
+      );
+      setCamoSets(newCamoSets);
+    }
   };
 
   // Count gold weapons by category in the current active set
