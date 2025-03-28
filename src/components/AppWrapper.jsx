@@ -51,10 +51,21 @@ export default function AppWrapper() {
   }, [activeSetId]);
 
   useEffect(() => {
-    fetch('/commit-hash.txt')
-      .then(response => response.text())
+    fetch('/cod-camo-tracker/commit-hash.txt')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+      })
       .then(hash => setCommitHash(hash))
-      .catch(error => console.error('Error fetching commit hash:', error));
+      .catch(error => {
+        if (error.message.includes('404')) {
+          console.error('Commit hash file not found:', error);
+        } else {
+          console.error('Error fetching commit hash:', error);
+        }
+      });
   }, []); 
 
   const toggleCategory = (category) => {
