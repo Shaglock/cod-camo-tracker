@@ -1,7 +1,50 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { challengesData, weaponCategories } from '../constants/weaponData';
 import { getCountingCategories, getGoldRequirement } from '../constants/categoryRequirements';
-import ReactTooltip from 'react-tooltip';
+
+// Custom tooltip component
+const CustomTooltip = ({ text, children }) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const tooltipRef = useRef(null);
+  
+  const handleShowTooltip = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setPosition({
+      x: rect.left + (rect.width / 2),
+      y: rect.top
+    });
+    setShowTooltip(true);
+  };
+  
+  return (
+    <div 
+      className="relative inline-flex w-full"
+      onMouseEnter={handleShowTooltip}
+      onMouseLeave={() => setShowTooltip(false)}
+      onTouchStart={handleShowTooltip}
+      onTouchEnd={() => setShowTooltip(false)}
+    >
+      {children}
+      {showTooltip && (
+        <div 
+          ref={tooltipRef}
+          className="fixed z-[100] bg-gray-800 text-white p-2 rounded shadow-lg text-xs whitespace-normal"
+          style={{
+            left: `${position.x}px`,
+            top: `${position.y}px`,
+            transform: 'translate(-50%, -100%)',
+            maxWidth: '300px',
+            pointerEvents: 'none'
+          }}
+        >
+          {text}
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapon, setAllCamosStatus }) {
   const weaponChallenges = challengesData[weapon.name] || [];
@@ -139,11 +182,12 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
             {/* Progress indicator - uses totalCompletedCount for display */}
             {totalCompletedCount > 0 && (
               <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gray-600 rounded-b overflow-hidden">
-                <div 
-                  className="h-full bg-green-500" 
-                  style={{ width: `${completionPercentage}%` }}
-                  data-tip={`${totalCompletedCount}/${totalCamosCount} completed (${Math.round(completionPercentage)}%)`}
-                ></div>
+                <CustomTooltip text={`${totalCompletedCount}/${totalCamosCount} completed (${Math.round(completionPercentage)}%)`}>
+                  <div 
+                    className="h-full bg-green-500" 
+                    style={{ width: `${completionPercentage}%` }}
+                  ></div>
+                </CustomTooltip>
               </div>
             )}
           </div>
@@ -204,53 +248,53 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
                 const hasCamoImage = camo.image && camo.image !== 0;
                 
                 return (
-                  <div
-                    key={camo.name}
-                    className={`flex items-center space-x-2 sm:space-x-3 group cursor-pointer p-1 rounded-md transition-colors ${
-                      trackerData[camo.name]
-                        ? 'bg-gray-600 ring-2 ring-green-500'
-                        : 'hover:bg-gray-600 active:bg-gray-650'
-                    }`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      updateCamoStatus(weapon.name, camo.name, !trackerData[camo.name]);
-                    }}
-                    data-tip={camo.challenge}
-                  >
-                    <div className="relative">
-                      {hasCamoImage ? (
-                        <img
-                          src={camo.image}
-                          alt={camo.name}
-                          className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded transition-all duration-200 ${
-                            trackerData[camo.name] ? 'opacity-100' : 'opacity-50 group-hover:opacity-80'
-                          }`}
-                        />
-                      ) : (
-                        <div className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded bg-gray-800 flex items-center justify-center transition-all duration-200 ${
-                            trackerData[camo.name] ? 'opacity-100' : 'opacity-50 group-hover:opacity-80'
-                          }`}>
-                          <span className="text-gray-500 text-xs">{camo.name.slice(0, 1)}</span>
-                        </div>
-                      )}
-                      
-                      {trackerData[camo.name] && (
-                        <div className="absolute -top-1 -right-1 bg-indigo-500 rounded-full p-0.5">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        </div>
-                      )}
+                  <CustomTooltip key={camo.name} text={camo.challenge}>
+                    <div
+                      className={`flex items-center space-x-2 sm:space-x-3 group cursor-pointer p-1 rounded-md transition-colors ${
+                        trackerData[camo.name]
+                          ? 'bg-gray-600 ring-2 ring-green-500'
+                          : 'hover:bg-gray-600 active:bg-gray-650'
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        updateCamoStatus(weapon.name, camo.name, !trackerData[camo.name]);
+                      }}
+                    >
+                      <div className="relative">
+                        {hasCamoImage ? (
+                          <img
+                            src={camo.image}
+                            alt={camo.name}
+                            className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded transition-all duration-200 ${
+                              trackerData[camo.name] ? 'opacity-100' : 'opacity-50 group-hover:opacity-80'
+                            }`}
+                          />
+                        ) : (
+                          <div className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded bg-gray-800 flex items-center justify-center transition-all duration-200 ${
+                              trackerData[camo.name] ? 'opacity-100' : 'opacity-50 group-hover:opacity-80'
+                            }`}>
+                            <span className="text-gray-500 text-xs">{camo.name.slice(0, 1)}</span>
+                          </div>
+                        )}
+                        
+                        {trackerData[camo.name] && (
+                          <div className="absolute -top-1 -right-1 bg-indigo-500 rounded-full p-0.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-xs sm:text-sm md:text-base truncate">
+                          {camo.name}
+                        </p>
+                        <p className="text-xs sm:text-sm text-gray-400 group-hover:text-white line-clamp-2">
+                          {camo.challenge}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-xs sm:text-sm md:text-base truncate">
-                        {camo.name}
-                      </p>
-                      <p className="text-xs sm:text-sm text-gray-400 group-hover:text-white line-clamp-2">
-                        {camo.challenge}
-                      </p>
-                    </div>
-                  </div>
+                  </CustomTooltip>
                 );
               })}
             </div>
@@ -259,7 +303,6 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
           )}
         </div>
       </div>
-      <ReactTooltip className="bg-gray-800 text-white p-2 rounded shadow-lg" />
     </div>
   );
 }
