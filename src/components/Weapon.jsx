@@ -1,6 +1,7 @@
 import React from 'react';
 import { challengesData, weaponCategories } from '../constants/weaponData';
 import { getCountingCategories, getGoldRequirement } from '../constants/categoryRequirements';
+import ReactTooltip from 'react-tooltip';
 
 export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpanded, toggleWeapon, setAllCamosStatus }) {
   const weaponChallenges = challengesData[weapon.name] || [];
@@ -141,7 +142,7 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
                 <div 
                   className="h-full bg-green-500" 
                   style={{ width: `${completionPercentage}%` }}
-                  title={`${totalCompletedCount}/${totalCamosCount} completed (${Math.round(completionPercentage)}%)`}
+                  data-tip={`${totalCompletedCount}/${totalCamosCount} completed (${Math.round(completionPercentage)}%)`}
                 ></div>
               </div>
             )}
@@ -214,6 +215,7 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
                       e.stopPropagation();
                       updateCamoStatus(weapon.name, camo.name, !trackerData[camo.name]);
                     }}
+                    data-tip={camo.challenge}
                   >
                     <div className="relative">
                       {hasCamoImage ? (
@@ -257,6 +259,7 @@ export default function Weapon({ weapon, trackerData, updateCamoStatus, isExpand
           )}
         </div>
       </div>
+      <ReactTooltip className="bg-gray-800 text-white p-2 rounded shadow-lg" />
     </div>
   );
 }
