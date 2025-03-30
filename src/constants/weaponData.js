@@ -101,7 +101,7 @@ export const weaponCategories = [
     name: "Special",
     weapons: [
       { name: "Sirin 9mm", image: "https://assets.codmunity.gg/optimized/Sirin-9mm.webp" },
-      { name: "D1.3 Sector", image: 0 },
+      { name: "D1.3 Sector", image: "https://img.wzstats.gg/d13-sector/gunFullDisplay" },
       { name: "Nail Gun", image: "https://img.wzstats.gg/nail-gun/gunFullDisplay" },
     ],
   },
