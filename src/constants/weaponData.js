@@ -11,6 +11,8 @@ export const weaponCategories = [
       { name: "AS VAL", image: "https://assets.codmunity.gg/optimized/AS-VAL-Dark-Spine.webp" },
       { name: "KRIG C", image: "https://assets.codmunity.gg/optimized/KRIG-C.webp" },
       { name: "Cypher 091", image: "https://assets.codmunity.gg/optimized/Cypher-091.webp" },
+      { name: "CR-56 AMAX", image: "https://img.wzstats.gg/cr-56-amax/gunFullDisplay" },
+      { name: "Kilo 141", image: "https://img.wzstats.gg/kilo-141/gunFullDisplay" },
     ],
   },
   {
@@ -24,6 +26,7 @@ export const weaponCategories = [
       { name: "KOMPAKT 92", image: "https://assets.codmunity.gg/optimized/KOMPAKT-92-Dark-Spine.webp" },
       { name: "SAUG", image: "https://assets.codmunity.gg/optimized/SAUG.webp" },
       { name: "PPSh-41", image: "https://assets.codmunity.gg/optimized/PPSh-41.webp" },
+      { name: "Ladra", image: "https://img.wzstats.gg/ladra/gunFullDisplay" },
     ],
   },
   {
@@ -60,6 +63,7 @@ export const weaponCategories = [
       { name: "SVD", image: "https://assets.codmunity.gg/optimized/SVD-Dark-Spine.webp" },
       { name: "LW3A1 Frostline", image: "https://assets.codmunity.gg/optimized/LW3A1-Frostline-Dark-Spine.webp" },
       { name: "AMR Mod 4", image: "https://assets.codmunity.gg/optimized/AMR-MOD-4.webp" },
+      { name: "HDR", image: "https://img.wzstats.gg/hdr/gunFullDisplay" },
     ],
   },
   {
@@ -85,11 +89,12 @@ export const weaponCategories = [
       { name: "Baseball Bat", image: "https://assets.codmunity.gg/optimized/Baseball-Bat-Dark-Spine.webp" },
       { name: "Power Drill", image: "https://assets.codmunity.gg/optimized/Power-Drill.webp" },
       { name: "Cleaver", image: "https://assets.codmunity.gg/optimized/Cleaver.webp" },
-      { name: "Skateboard", image: 0 },
+      { name: "Skateboard", image: "https://assets.codmunity.gg/optimized/Skateboard.webp" },
       { name: "Katanas", image: "https://assets.codmunity.gg/optimized/Katanas.webp" },
       { name: "Bo Staff", image: "https://assets.codmunity.gg/optimized/Bo-Staff.webp" },
       { name: "Nunchaku", image: "https://assets.codmunity.gg/optimized/Nunchaku.webp" },
       { name: "Sai", image: "https://assets.codmunity.gg/optimized/Sai.webp" },
+      { name: "Kali Sticks", image: "https://img.wzstats.gg/kali-sticks/gunFullDisplay" },
     ],
   },
   {
@@ -97,6 +102,7 @@ export const weaponCategories = [
     weapons: [
       { name: "Sirin 9mm", image: "https://assets.codmunity.gg/optimized/Sirin-9mm.webp" },
       { name: "D1.3 Sector", image: 0 },
+      { name: "Nail Gun", image: "https://img.wzstats.gg/nail-gun/gunFullDisplay" },
     ],
   },
 ];
