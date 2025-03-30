@@ -12,7 +12,7 @@ export const weaponCategories = [
       { name: "KRIG C", image: "https://assets.codmunity.gg/optimized/KRIG-C.webp" },
       { name: "Cypher 091", image: "https://assets.codmunity.gg/optimized/Cypher-091.webp" },
       { name: "CR-56 AMAX", image: "https://img.wzstats.gg/cr-56-amax/gunFullDisplay" },
-      { name: "Kilo 141", image: "https://img.wzstats.gg/kilo-141/gunFullDisplay" },
+      { name: "Kilo 141", image: "https://img.wzstats.gg/kilo-141-bold/gunFullDisplay" },
     ],
   },
   {
