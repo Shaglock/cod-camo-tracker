@@ -11,8 +11,9 @@ export const weaponCategories = [
       { name: "AS VAL", image: "https://assets.codmunity.gg/optimized/AS-VAL-Dark-Spine.webp" },
       { name: "KRIG C", image: "https://assets.codmunity.gg/optimized/KRIG-C.webp" },
       { name: "Cypher 091", image: "https://assets.codmunity.gg/optimized/Cypher-091.webp" },
-      { name: "CR-56 AMAX", image: "https://img.wzstats.gg/cr-56-amax/gunFullDisplay" },
-      { name: "Kilo 141", image: "https://img.wzstats.gg/kilo-141-bold/gunFullDisplay" },
+      { name: "CR-56 AMAX", image: "https://assets.codmunity.gg/optimized/CR-56-Amax.webp" },
+      // { name: "CR-56 AMAX", image: "https://img.wzstats.gg/cr-56-amax/gunFullDisplay" },
+      { name: "Kilo 141", image: "https://assets.codmunity.gg/optimized/Kilo-141.webp" },
     ],
   },
   {
@@ -101,7 +102,7 @@ export const weaponCategories = [
     name: "Special",
     weapons: [
       { name: "Sirin 9mm", image: "https://assets.codmunity.gg/optimized/Sirin-9mm.webp" },
-      { name: "D1.3 Sector", image: "https://img.wzstats.gg/d13-sector/gunFullDisplay" },
+      { name: "D1.3 Sector", image: "https://assets.codmunity.gg/optimized/D1.3-Sector.webp" },
       { name: "Nail Gun", image: "https://img.wzstats.gg/nail-gun/gunFullDisplay" },
     ],
   },
