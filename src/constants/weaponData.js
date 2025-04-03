@@ -64,7 +64,7 @@ export const weaponCategories = [
       { name: "SVD", image: "https://assets.codmunity.gg/optimized/SVD-Dark-Spine.webp" },
       { name: "LW3A1 Frostline", image: "https://assets.codmunity.gg/optimized/LW3A1-Frostline-Dark-Spine.webp" },
       { name: "AMR Mod 4", image: "https://assets.codmunity.gg/optimized/AMR-MOD-4.webp" },
-      { name: "HDR", image: "https://img.wzstats.gg/hdr-bold/gunFullDisplay" },
+      { name: "HDR", image: "https://assets.codmunity.gg/optimized/HDR.webp" },
     ],
   },
   {
