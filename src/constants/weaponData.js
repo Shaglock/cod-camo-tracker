@@ -274,17 +274,17 @@ export const weaponCategories = [
   },
 ];
 
-export const challengesDataOld = {
+export const challengesData = {
   "9MM PM": [
-    {
-      name: "Blue Ring",
-      challenge: "Get 50 Kills while using a Suppressor ",
-      image: "https://assets.codmunity.gg/optimized/Blue-Ring.webp",
-    },
     {
       name: "Exabyte",
       challenge: "Get 15 Kills shortly after switching weapons",
       image: "https://assets.codmunity.gg/optimized/Exabyte.webp",
+    },
+    {
+      name: "Blue Ring",
+      challenge: "Get 50 Kills while using a Suppressor ",
+      image: "https://assets.codmunity.gg/optimized/Blue-Ring.webp",
     },
     {
       name: "Gold",
@@ -407,14 +407,14 @@ export const challengesDataOld = {
   ],
   "AMR Mod 4": [
     {
-      name: "Shadowthorn",
-      challenge: "Get 30 One Shot Kills",
-      image: "https://assets.codmunity.gg/optimized/Shadowthorn.webp",
-    },
-    {
       name: "Tidal Harmony",
       challenge: "Get 2 Kills without reloading 10 times",
       image: "https://assets.codmunity.gg/optimized/Tidal-Harmony.webp",
+    },
+    {
+      name: "Shadowthorn",
+      challenge: "Get 30 One Shot Kills",
+      image: "https://assets.codmunity.gg/optimized/Shadowthorn.webp",
     },
     {
       name: "Gold",
@@ -439,15 +439,15 @@ export const challengesDataOld = {
   ],
   "AS VAL": [
     {
+      name: "Elk",
+      challenge: "Get 30 Hipfire Kills",
+      image: "https://assets.codmunity.gg/optimized/elk.webp",
+    },
+    {
       name: "Crimson Steppes",
       challenge:
         "Get 50 Eliminations while the Recon Combat Specialty is active",
       image: "https://assets.codmunity.gg/optimized/Crimson-steppes.webp",
-    },
-    {
-      name: "Elk",
-      challenge: "Get 30 Hipfire Kills",
-      image: "https://assets.codmunity.gg/optimized/elk.webp",
     },
     {
       name: "Gold",
@@ -504,14 +504,14 @@ export const challengesDataOld = {
   ],
   "Baseball Bat": [
     {
-      name: "Torment",
-      challenge: "Get 15 Kills shortly after switching weapons",
-      image: "https://assets.codmunity.gg/optimized/Torment.webp",
-    },
-    {
       name: "Slip",
       challenge: "Get 30 Kills without taking any damage",
       image: "https://assets.codmunity.gg/optimized/Slip.webp",
+    },
+    {
+      name: "Torment",
+      challenge: "Get 15 Kills shortly after switching weapons",
+      image: "https://assets.codmunity.gg/optimized/Torment.webp",
     },
     {
       name: "Gold",
@@ -539,12 +539,12 @@ export const challengesDataOld = {
       name: "Havoc",
       challenge:
         "Get 50 Eliminations while the Strategist Combat Specialty is active",
-      image: 0,
+      image: "https://assets.codmunity.gg/optimized/Havoc.webp",
     },
     {
       name: "Legacy",
       challenge: "Get 5 Kills in a single match 3 times",
-      image: 0,
+      image: "https://assets.codmunity.gg/optimized/Legacy.webp",
     },
     {
       name: "Gold",
@@ -633,17 +633,52 @@ export const challengesDataOld = {
       image: "https://assets.codmunity.gg/optimized/Camo_DarkMatter.webp",
     },
   ],
+  "CR-56 AMAX": [
+    {
+      name: "Dark Spine",
+      challenge: "Get 3 Triple Kills",
+      image: "https://assets.codmunity.gg/optimized/Camo_DarkSpine.webp",
+    },
+    {
+      name: "Dark Matter",
+      challenge: "Get 5 Kills without dying 3 times",
+      image: "https://assets.codmunity.gg/optimized/Camo_DarkMatter.webp",
+    },
+  ],
+  "CR-56 Amax": [
+    {
+      name: "Glade",
+      challenge:
+        "Get 50 Eliminations while the Enforcer Combat Specialty is active",
+      image: "https://assets.codmunity.gg/optimized/Glade.webp",
+    },
+    {
+      name: "Teal Tiger",
+      challenge: "Get 30 Kills without taking any damage",
+      image: "https://assets.codmunity.gg/optimized/Teal-Tiger.webp",
+    },
+    {
+      name: "Gold",
+      challenge: "Get 10 Double Kills",
+      image: "https://assets.codmunity.gg/optimized/Camo_Gold.webp",
+    },
+    {
+      name: "Diamond",
+      challenge: "Get 3 Kills without dying 10 times",
+      image: "https://assets.codmunity.gg/optimized/Camo_Diamond.webp",
+    },
+  ],
   Cleaver: [
+    {
+      name: "Luminous Leopard",
+      challenge: "Get 30 Kills without taking any damage",
+      image: "https://assets.codmunity.gg/optimized/Luminous-Leopard.webp",
+    },
     {
       name: "Creepy Crypt",
       challenge:
         "Get 50 Eliminations while the Strategist Combat Specialty is active",
       image: "https://assets.codmunity.gg/optimized/Creepy-Crypt.webp",
-    },
-    {
-      name: "Luminous Leopard",
-      challenge: "Get 30 Kills without taking any damage",
-      image: "https://assets.codmunity.gg/optimized/Luminous-Leopard.webp",
     },
     {
       name: "Gold",
@@ -668,14 +703,14 @@ export const challengesDataOld = {
   ],
   "Cypher 091": [
     {
-      name: "Scorching Slash",
-      challenge: "Get 30 Kills without taking any damage",
-      image: "https://assets.codmunity.gg/optimized/Scorching-Slash.webp",
-    },
-    {
       name: "Rotmist",
       challenge: "Get 2 Kills without reloading 10 times",
       image: "https://assets.codmunity.gg/optimized/Rotmist.webp",
+    },
+    {
+      name: "Scorching Slash",
+      challenge: "Get 30 Kills without taking any damage",
+      image: "https://assets.codmunity.gg/optimized/Scorching-Slash.webp",
     },
     {
       name: "Gold",
@@ -700,11 +735,15 @@ export const challengesDataOld = {
   ],
   "D1.3 Sector": [
     {
+      name: "Fast Times",
+      challenge: "Get 30 One Shot Kills",
+      image: "https://assets.codmunity.gg/optimized/Fast-Times.webp",
+    },
+    {
       name: "Meteorite",
       challenge: "Get 2 Kills without reloading 10 times",
-      image: 0,
+      image: "https://assets.codmunity.gg/optimized/Meteorite.webp",
     },
-    { name: "Fast Times", challenge: "Get 30 One Shot Kills", image: 0 },
     {
       name: "Gold",
       challenge: "Get 10 Double Kills",
@@ -718,7 +757,7 @@ export const challengesDataOld = {
     {
       name: "Dark Spine",
       challenge: "Get 3 Triple Kills",
-      image: "https://assets.codmunity.gg/optimized/Opal.webp",
+      image: "https://assets.codmunity.gg/optimized/Camo_DarkSpine.webp",
     },
     {
       name: "Dark Matter",
@@ -728,14 +767,14 @@ export const challengesDataOld = {
   ],
   "DM-10": [
     {
-      name: "Mellowbloom",
-      challenge: "Get 50 Kills while using a Suppressor ",
-      image: "https://assets.codmunity.gg/optimized/Mellowbloom.webp",
-    },
-    {
       name: "Cobalt ",
       challenge: "Get 15 Longshot Kills",
       image: "https://assets.codmunity.gg/optimized/Cobalt.webp",
+    },
+    {
+      name: "Mellowbloom",
+      challenge: "Get 50 Kills while using a Suppressor ",
+      image: "https://assets.codmunity.gg/optimized/Mellowbloom.webp",
     },
     {
       name: "Gold",
@@ -792,14 +831,14 @@ export const challengesDataOld = {
   ],
   "GOBLIN MK 2": [
     {
-      name: "Astral Cry",
-      challenge: "Get 30 Kills without taking any damage",
-      image: "https://assets.codmunity.gg/optimized/ASTRAL-CRY.webp",
-    },
-    {
       name: "Hammerhead ",
       challenge: "Get 20 Kills with an Underbarrel Launcher attached ",
       image: "https://assets.codmunity.gg/optimized/HAMMERHEAD.webp",
+    },
+    {
+      name: "Astral Cry",
+      challenge: "Get 30 Kills without taking any damage",
+      image: "https://assets.codmunity.gg/optimized/ASTRAL-CRY.webp",
     },
     {
       name: "Gold",
@@ -952,6 +991,39 @@ export const challengesDataOld = {
       image: "https://assets.codmunity.gg/optimized/Camo_DarkMatter.webp",
     },
   ],
+  HDR: [
+    {
+      name: "Aurora Drip",
+      challenge:
+        "Get 50 Eliminations with a 4.0x or gigher magnification scope attached",
+      image: "https://assets.codmunity.gg/optimized/Aurora-Drip.webp",
+    },
+    {
+      name: "Meadow Bloom",
+      challenge: "Getr 30 One Shot Kills",
+      image: "https://assets.codmunity.gg/optimized/Meadow-Bloom.webp",
+    },
+    {
+      name: "Gold",
+      challenge: "Get 10 Double Kills",
+      image: "https://assets.codmunity.gg/optimized/Camo_Gold.webp",
+    },
+    {
+      name: "Diamond",
+      challenge: "Get 3 Kills without dying 10 times",
+      image: "https://assets.codmunity.gg/optimized/Camo_Diamond.webp",
+    },
+    {
+      name: "Dark Spine",
+      challenge: "Get 3 Triple Kills",
+      image: "https://assets.codmunity.gg/optimized/Camo_DarkSpine.webp",
+    },
+    {
+      name: "Dark Matter",
+      challenge: "Get 5 Kills without dying 3 times",
+      image: "https://assets.codmunity.gg/optimized/Camo_DarkMatter.webp",
+    },
+  ],
   "HE-1": [
     {
       name: "Dreamer",
@@ -988,14 +1060,46 @@ export const challengesDataOld = {
   ],
   "JACKAL PDW": [
     {
+      name: "Dread",
+      challenge: "Get 30 Point Blank Kills",
+      image: "https://assets.codmunity.gg/optimized/Dread.webp",
+    },
+    {
       name: "Deep End",
       challenge: "Get 30 Kills shortly after sprinting",
       image: "https://assets.codmunity.gg/optimized/Deep-End.webp",
     },
     {
-      name: "Dread",
-      challenge: "Get 30 Point Blank Kills",
-      image: "https://assets.codmunity.gg/optimized/Dread.webp",
+      name: "Gold",
+      challenge: "Get 10 Double Kills",
+      image: "https://assets.codmunity.gg/optimized/Camo_Gold.webp",
+    },
+    {
+      name: "Diamond",
+      challenge: "Get 3 Kills without dying 10 times",
+      image: "https://assets.codmunity.gg/optimized/Camo_Diamond.webp",
+    },
+    {
+      name: "Dark Spine",
+      challenge: "Get 3 Triple Kills",
+      image: "https://assets.codmunity.gg/optimized/Camo_DarkSpine.webp",
+    },
+    {
+      name: "Dark Matter",
+      challenge: "Get 5 Kills without dying 3 times",
+      image: "https://assets.codmunity.gg/optimized/Camo_DarkMatter.webp",
+    },
+  ],
+  "KILO 141": [
+    {
+      name: "Jade",
+      challenge: "Get 50 Eliminations with a suppressor equipped",
+      image: "https://assets.codmunity.gg/optimized/Jade.webp",
+    },
+    {
+      name: "Virusscape",
+      challenge: "Get 30 kills shortly after sprinting",
+      image: "https://assets.codmunity.gg/optimized/Virusscape.webp",
     },
     {
       name: "Gold",
@@ -1020,14 +1124,14 @@ export const challengesDataOld = {
   ],
   "KOMPAKT 92": [
     {
-      name: "Kingfisher",
-      challenge: "Get 30 Hipfire Kills",
-      image: "https://assets.codmunity.gg/optimized/Kingfisher.webp",
-    },
-    {
       name: "Blackthorn",
       challenge: "Get 30 Kills shortly after sprinting",
       image: "https://assets.codmunity.gg/optimized/Blackthorn.webp",
+    },
+    {
+      name: "Kingfisher",
+      challenge: "Get 30 Hipfire Kills",
+      image: "https://assets.codmunity.gg/optimized/Kingfisher.webp",
     },
     {
       name: "Gold",
@@ -1052,14 +1156,14 @@ export const challengesDataOld = {
   ],
   "KRIG C": [
     {
-      name: "Monochrome",
-      challenge: "Get 30 Kills shortly after sprinting",
-      image: "https://assets.codmunity.gg/optimized/Monochrome.webp",
-    },
-    {
       name: "Dreadshade",
       challenge: "Get 50 Kills while moving",
       image: "https://assets.codmunity.gg/optimized/Dreadshade.webp",
+    },
+    {
+      name: "Monochrome",
+      challenge: "Get 30 Kills shortly after sprinting",
+      image: "https://assets.codmunity.gg/optimized/Monochrome.webp",
     },
     {
       name: "Gold",
@@ -1114,17 +1218,50 @@ export const challengesDataOld = {
       image: "https://assets.codmunity.gg/optimized/Camo_DarkMatter.webp",
     },
   ],
+  "Kali Sticks": [
+    {
+      name: "Driftscape",
+      challenge: "Get 5 Kills in a single match 3 times",
+      image: "https://assets.codmunity.gg/optimized/Driftscape.webp",
+    },
+    {
+      name: "Dunebreak",
+      challenge:
+        "Get 50 Eliminations while the Recon Combat Specialty is active",
+      image: "https://assets.codmunity.gg/optimized/Dunebreak.webp",
+    },
+    {
+      name: "Gold",
+      challenge: "Get 10 Double Kills",
+      image: "https://assets.codmunity.gg/optimized/Camo_Gold.webp",
+    },
+    {
+      name: "Diamond",
+      challenge: "Get 3 Kills without dying 10 times",
+      image: "https://assets.codmunity.gg/optimized/Camo_Diamond.webp",
+    },
+    {
+      name: "Dark Spine",
+      challenge: "Get 3 Triple Kills",
+      image: "https://assets.codmunity.gg/optimized/Camo_DarkSpine.webp",
+    },
+    {
+      name: "Dark Matter",
+      challenge: "Get 5 Kills without dying 3 times",
+      image: "https://assets.codmunity.gg/optimized/Camo_DarkMatter.webp",
+    },
+  ],
   Katanas: [
     {
       name: "Coral Crush",
       challenge: "Get 5 Kills in a single match 3 times",
-      image: 0,
+      image: "https://assets.codmunity.gg/optimized/Coral-Crush.webp",
     },
     {
       name: "Tempest",
       challenge:
         "Get 50 Eliminations while the Enforcer Combat Specialty is active",
-      image: 0,
+      image: "https://assets.codmunity.gg/optimized/Tempest.webp",
     },
     {
       name: "Gold",
@@ -1182,14 +1319,14 @@ export const challengesDataOld = {
   ],
   "LR 7.62": [
     {
-      name: "Chaparral",
-      challenge: "Get 30 One Shot Kills",
-      image: "https://assets.codmunity.gg/optimized/Chaparral.webp",
-    },
-    {
       name: "Nimbus",
       challenge: "Get 15 Longshot Kills",
       image: "https://assets.codmunity.gg/optimized/Nimbus.webp",
+    },
+    {
+      name: "Chaparral",
+      challenge: "Get 30 One Shot Kills",
+      image: "https://assets.codmunity.gg/optimized/Chaparral.webp",
     },
     {
       name: "Gold",
@@ -1247,14 +1384,14 @@ export const challengesDataOld = {
   ],
   "MARINE SP": [
     {
-      name: "Chromed Out",
-      challenge: "Get 30 Kills shortly after sprinting",
-      image: "https://assets.codmunity.gg/optimized/Chromed-Out.webp",
-    },
-    {
       name: "Blueberry Lime",
       challenge: "Get 30 Hipfire Kills",
       image: "https://assets.codmunity.gg/optimized/Blueberry-Lime.webp",
+    },
+    {
+      name: "Chromed Out",
+      challenge: "Get 30 Kills shortly after sprinting",
+      image: "https://assets.codmunity.gg/optimized/Chromed-Out.webp",
     },
     {
       name: "Gold",
@@ -1312,15 +1449,15 @@ export const challengesDataOld = {
   ],
   Maelstrom: [
     {
-      name: "Voidpulse",
-      challenge: "Get 30 Point Blank Kills",
-      image: "https://assets.codmunity.gg/optimized/Voidpulse.webp",
-    },
-    {
       name: "Moonlit Grace",
       challenge:
         "Get 50 Eliminations while the Enforcer Combat Specialty is active",
       image: "https://assets.codmunity.gg/optimized/Moonlit-Grace.webp",
+    },
+    {
+      name: "Voidpulse",
+      challenge: "Get 30 Point Blank Kills",
+      image: "https://assets.codmunity.gg/optimized/Voidpulse.webp",
     },
     {
       name: "Gold",
@@ -1345,14 +1482,14 @@ export const challengesDataOld = {
   ],
   Nunchaku: [
     {
-      name: "Nested",
-      challenge: "Get 30 Kills without taking any damage",
-      image: 0,
-    },
-    {
       name: "Radiate",
       challenge: "Get 15 Kills shortly after switching weapons",
-      image: 0,
+      image: "https://assets.codmunity.gg/optimized/Radiate.webp",
+    },
+    {
+      name: "Nested",
+      challenge: "Get 30 Kills without taking any damage",
+      image: "https://assets.codmunity.gg/optimized/Nested.webp",
     },
     {
       name: "Gold",
@@ -1410,14 +1547,14 @@ export const challengesDataOld = {
   ],
   "PPSh-41": [
     {
-      name: "Skythrone",
-      challenge: "Get 30 Kills without taking any damage",
-      image: "https://assets.codmunity.gg/optimized/Skythrone.webp",
-    },
-    {
       name: "Mirage",
       challenge: "Get 5 Kills in a single match 3 times",
       image: "https://assets.codmunity.gg/optimized/Mirage-pp.webp",
+    },
+    {
+      name: "Skythrone",
+      challenge: "Get 30 Kills without taking any damage",
+      image: "https://assets.codmunity.gg/optimized/Skythrone.webp",
     },
     {
       name: "Gold",
@@ -1474,15 +1611,15 @@ export const challengesDataOld = {
   ],
   "Power Drill": [
     {
+      name: "Thermal",
+      challenge: "Get 15 Kills shortly after sprinting",
+      image: "https://assets.codmunity.gg/optimized/Thermal.webp",
+    },
+    {
       name: "Twilight Toadstool",
       challenge:
         "Get 50 Eliminations while the Recon Combat Specialty is active",
       image: "https://assets.codmunity.gg/optimized/Twilight-Toadstool.webp",
-    },
-    {
-      name: "Thermal",
-      challenge: "Get 15 Kills shortly after sprinting",
-      image: "https://assets.codmunity.gg/optimized/Thermal.webp",
     },
     {
       name: "Gold",
@@ -1507,14 +1644,14 @@ export const challengesDataOld = {
   ],
   SAUG: [
     {
-      name: "Netherworld",
-      challenge: "Get 30 Point Blank Kills",
-      image: "https://assets.codmunity.gg/optimized/Netherworld1.webp",
-    },
-    {
       name: "Solar Tide",
       challenge: "Get 50 Kills while moving",
       image: "https://assets.codmunity.gg/optimized/Solar-Tide.webp",
+    },
+    {
+      name: "Netherworld",
+      challenge: "Get 30 Point Blank Kills",
+      image: "https://assets.codmunity.gg/optimized/Netherworld1.webp",
     },
     {
       name: "Gold",
@@ -1610,12 +1747,12 @@ export const challengesDataOld = {
       name: "Seep",
       challenge:
         "Get 50 Eliminations while the Recon Combat Specialty is active",
-      image: 0,
+      image: "https://assets.codmunity.gg/optimized/Seep.webp",
     },
     {
       name: "Crestdeep",
       challenge: "Get 30 Kills without taking any damage",
-      image: 0,
+      image: "https://assets.codmunity.gg/optimized/Crestdeep.webp",
     },
     {
       name: "Gold",
@@ -1640,14 +1777,14 @@ export const challengesDataOld = {
   ],
   "Sirin 9mm": [
     {
-      name: "Nebulon",
-      challenge: "Get 30 Kills shortly after sprinting",
-      image: "https://assets.codmunity.gg/optimized/Nebulon.webp",
-    },
-    {
       name: "Enchanted",
       challenge: "Get 50 Kills while moving",
       image: "https://assets.codmunity.gg/optimized/Enchanted.webp",
+    },
+    {
+      name: "Nebulon",
+      challenge: "Get 30 Kills shortly after sprinting",
+      image: "https://assets.codmunity.gg/optimized/Nebulon.webp",
     },
     {
       name: "Gold",
@@ -1672,14 +1809,14 @@ export const challengesDataOld = {
   ],
   Skateboard: [
     {
-      name: "Ripple",
-      challenge: "Get 15 Kills shortly after switching weapons",
-      image: 0,
-    },
-    {
       name: "Bliss",
       challenge: "Get 30 Kills without taking any damage",
-      image: 0,
+      image: "https://assets.codmunity.gg/optimized/Bliss.webp",
+    },
+    {
+      name: "Ripple",
+      challenge: "Get 15 Kills shortly after switching weapons",
+      image: "https://assets.codmunity.gg/optimized/Ripple.webp",
     },
     {
       name: "Gold",
