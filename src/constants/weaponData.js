@@ -45,7 +45,7 @@ export const weaponCategories = [
       },
       // { name: "CR-56 AMAX", image: "https://img.wzstats.gg/cr-56-amax/gunFullDisplay" },
       {
-        name: "Kilo 141",
+        name: "KILO 141",
         image: "https://assets.codmunity.gg/optimized/Kilo-141.webp",
       },
     ],
@@ -635,18 +635,6 @@ export const challengesData = {
   ],
   "CR-56 AMAX": [
     {
-      name: "Dark Spine",
-      challenge: "Get 3 Triple Kills",
-      image: "https://assets.codmunity.gg/optimized/Camo_DarkSpine.webp",
-    },
-    {
-      name: "Dark Matter",
-      challenge: "Get 5 Kills without dying 3 times",
-      image: "https://assets.codmunity.gg/optimized/Camo_DarkMatter.webp",
-    },
-  ],
-  "CR-56 Amax": [
-    {
       name: "Glade",
       challenge:
         "Get 50 Eliminations while the Enforcer Combat Specialty is active",
@@ -666,6 +654,16 @@ export const challengesData = {
       name: "Diamond",
       challenge: "Get 3 Kills without dying 10 times",
       image: "https://assets.codmunity.gg/optimized/Camo_Diamond.webp",
+    },
+        {
+      name: "Dark Spine",
+      challenge: "Get 3 Triple Kills",
+      image: "https://assets.codmunity.gg/optimized/Camo_DarkSpine.webp",
+    },
+    {
+      name: "Dark Matter",
+      challenge: "Get 5 Kills without dying 3 times",
+      image: "https://assets.codmunity.gg/optimized/Camo_DarkMatter.webp",
     },
   ],
   Cleaver: [
