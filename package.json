@@ -3,11 +3,15 @@
   "private": true,
   "type": "module",
   "homepage": "https://shaglock.github.io/cod-camo-tracker",
+  "bin": {
+    "cross-env-shell-safe": "./bin/cross-env-shell-safe.js"
+  },
   "scripts": {
     "start": "vite --port 3000",
     "build": "vite build && tsc",
     "serve": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:cross-env": "node test-comparison.js"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.6",
@@ -21,9 +25,11 @@
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
+    "@types/node": "^24.2.1",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "cross-env": "^10.0.0",
     "jsdom": "^26.0.0",
     "typescript": "^5.7.2",
     "vite": "^6.1.0",
